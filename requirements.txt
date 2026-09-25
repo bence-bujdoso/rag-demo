@@ -17,10 +17,8 @@ langchain-core>=0.1.0
 ollama>=0.1.0
 
 # Embedding & Vector Store
-# A TF-IDF alapú RAG nem igényel sentence-transformers-t vagy faiss-cpu-t,
-# de opcionálisan elérhetők a következők:
-# sentence-transformers>=2.2.0  # HuggingFace embeddingek (nem aktív)
-# faiss-cpu>=1.7.0             # Vector store (nem aktív, TF-IDF-alapú RAG)
+sentence-transformers>=2.2.0
+faiss-cpu>=1.7.0
 numpy>=1.24.0
 
 # Streamlit UI

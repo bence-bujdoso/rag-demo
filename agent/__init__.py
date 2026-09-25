@@ -147,11 +147,13 @@ def route_node(state: AgentState) -> dict:
 
 
 def rag_node(state: AgentState) -> dict:
-    """3. Node: RAG subgraph meghívása a tudástárból."""
+    """3. Node: Hibrid RAG subgraph meghívása a tudástárból (TF-IDF + Dense Vector Search + RRF)."""
     query = state["query"]
     try:
-        from rag import RagSubgraph, RagConfig, run_rag_subgraph
-        result = run_rag_subgraph(query, RConfig())
+        from rag import HybridRAG, HybridConfig
+        hybrid_rag = HybridRAG(HybridConfig())
+        hybrid_rag.initialize()
+        result = hybrid_rag.retrieve(query)
         context = result.get("context", "")
         retrieved = result.get("retrieved_docs", [])
         # Preserve metadata (source, filename, score) for RAG usage display
@@ -437,10 +439,9 @@ def run_agent(query: str, config: Optional[AgentConfig] = None, rag: Optional[An
     # Initialize RAG (skip if pre-built instance provided)
     if rag is None:
         try:
-            rag = RagSubgraph(RConfig())
-            rag.load_documents()
-            rag.split_documents()
-            rag.build_index()
+            from rag import HybridRAG, HybridConfig
+            rag = HybridRAG(HybridConfig())
+            rag.initialize()
         except:
             pass
     
@@ -463,7 +464,7 @@ def run_agent(query: str, config: Optional[AgentConfig] = None, rag: Optional[An
     prompt = ""
 
     if route == "rag":
-        t3 = track_time("RAG Keresés", "TF-IDF vektor keresés", ["TF-IDF index", "Vektorkeresés", "Relevancia kiszámítás", "Dokumentum kiválasztás"])
+        t3 = track_time("RAG Keresés", "Hibrid keresés (TF-IDF + Dense + RRF)", ["TF-IDF index", "Dense vektor index", "RRF fusion", "Relevancia kiszámítás", "Dokumentum kiválasztás"])
         try:
             retrieved = rag.search(query)
             context = rag.get_context(retrieved)
@@ -492,7 +493,7 @@ def run_agent(query: str, config: Optional[AgentConfig] = None, rag: Optional[An
             retrieved_docs = []
             retrieval_stats = {}
             stats_text = "Hiba a kérés során."
-        t3 = finish_timing(t3, f"{len(retrieved_docs)} dokumentum", ["TF-IDF index", "Vektorkeresés", "Relevancia kiszámítás", "Dokumentum kiválasztás"])
+        t3 = finish_timing(t3, f"{len(retrieved_docs)} dokumentum", ["TF-IDF index", "Dense vektor index", "RRF fusion", "Relevancia kiszámítás", "Dokumentum kiválasztás"])
         node_timings.append(t3)
     
         t4 = track_time("Eszköz", "Közprendszer", ["Számítás", "Dátum kalkuláció", "Egyszerű logikai műveletek"])

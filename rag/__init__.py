@@ -6,9 +6,14 @@ ezt a subgraphot hívja, és nem számít bele a 3-5
 csomópontba.
 
 Használat:
-    from rag import RagSubgraph, RagConfig
+    from rag import RagSubgraph, RagConfig, HybridRAG, HybridConfig
     rag = RagSubgraph(RagConfig())
     result = rag.run_pipeline("Mennyi a minimálbér?")
+    
+    # Hibrid RAG használata:
+    hybrid = HybridRAG(HybridConfig())
+    hybrid.initialize()
+    result = hybrid.retrieve("Mennyi a minimálbér?")
 """
 
 import os
@@ -21,6 +26,9 @@ from collections import Counter
 import numpy as np
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+from rag.base import TFIDFVectorizer, RagConfig
+from rag.hybrid import HybridRAG, HybridConfig
 
 
 class DocumentState(TypedDict):
