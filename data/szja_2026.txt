@@ -1,0 +1,84 @@
+SZJA 2026 – Magyar személyi jövedelemadó változások
+====================================================
+Forrás: NAV, WTS Klient, TaxHungary, TaxRavens (frissítve: 2026. május)
+
+1. SZJA KULCSWORDÁS
+   - Személyi jövedelemadó (SZJA): 15% egységes általános összegű rámazó adó
+   - Szociális hozzájárulás (munkavállalói): 18.5% (10% nyugdíj + 7% egészségbiztosítás + 1.5% munkaügyi)
+   - Munkáltatói társadalmi hozzájárulás (SZOCHO): 13%
+   - Összes lefoglalás munkavállalói oldalon: 33.5% (SZJA + TB)
+   - Nettó fizetés: ~66.5% bruttóból
+   - Munkáltatói költség: ~113% bruttó fele
+   - Lakhatási adó, adóengedmények, stb.: világszerte jövedelem, nem-lakóknak csak magyar forrású jövedelem
+   - Lakcímkötöttség: 183 nap/év
+   - Dupla adókötlés: 80+ szerződés
+
+2. CSALÁDI ADÓENGEDÉNYEK (2026. JANUÁR 1. TÖRTÉNT DÖBBENTÉS)
+   - Családi adóengedmény megduplázás véglegesítése:
+     * 1 gyermek:     HUF 133,340/hó → spórolás HUF 20,001/hó SZJA-ra
+     * 2 gyermek:     HUF 266,660/hó → spórolás HUF 40,000/gyermek/hó
+     * 3+ gyermek:    HUF 440,000/hó → spórolás HUF 66,000/gyermeg/hó
+   - Felesleg egyenleg: szociális hozzájárulás (18.5%) csökkentésére is felhasználható
+
+3. ÚJ KIZÁRÁSOK 2026-BAN
+   - 25 év alattiak: HUF 693,740/hó jövedelem felett SZJA-mentes (spórolás ~HUF 104,061/hó)
+   - 30 év alatti anyák: felső bevételi korlát nélkül igényelhető SZJA-mentesség
+   - 40 év alatti anyák, 2 gyerekkel: teljes SZJA-mentesség (új 2026-ban)
+   - 4+ gyermeket nevelő anyák (NÉTAK): életre szóló teljes SZJA-mentesség
+   - Első házasság: HUF 33,335/hó, max 24 hónapig
+   - Sérültesség esetén: HUF 107,600/hó adóalap-engedmény (spórolás HUF 16,140/hó)
+   - Új adóalap-engedmények: csecsemőgondozási díj (csed), gyermekgondozási díj (gyed), örökbefogadási támogatás – SZJA-mentesek
+
+4. KRYPTÓ TAXÁKIS 2026
+   - Üzleti esemény: 15% SZJA (kiváltás esetén)
+   - Kriptó -> kriptó csere: nem adóesemény
+   - Bányászat, token issuance, NFT: nem adóesemény (kiváltáskor adózik)
+   - Staking jövedelem: kriptó szabályok szerint
+   - Airdrop: vállalkozói jövedelem (egyesített alapon, SZJA + SZOCHO)
+   - 🔴 ÚJ 2026: Veszteség-eltolás időkorlát megszűnt – korábban 2 év, most bármely korábbi év vesztesége elvonzható
+
+5. SZÉP KÁRTYA 2026
+   - 2026-tól nem használható otthoni felújításra (korábban: építőanyag, bútora, háztartási cikk)
+   - 2025. dec 1 – 2026. ápr 30: hideg ételek megvásárlása még megengedett
+
+6. EGYÉNI VALLALKOZÓK / ÁTALÁNYADÓZÁS
+   - Átalányadózás: 15% SZJA a bevételi aránytól történő kiadáson
+   - Bevételi plafon (általános): HUF 38,7M/év ~€99,966 (2026)
+   - 🔴 2026: 40%-os kiadási arány két lépésben emelkedik
+   - KATA: HUF 50,000/hó (egyszerűsített regime)
+   - Minimális hozzájárulási alap: 112.5%-ról 100%-ra csökkentve a minimálbérhez képest
+
+7. SZOCIÁLIS HOZZÁJÁRULÁS VÁLTOZÁSOK
+   - Nyugdíjas anyák esetén SZOCHO-köteles jövedelem: HUF 34,356,720/év (2026-threshold)
+   - 13% SZOCHO csak a fölötti részre
+   - TB kiskönyv -> e-TB kiskönyv (elektronikus) 2026-tól
+
+8. ADÓELJÁRÁS VÁLTOZÁSOK
+   - Új űrlap: 08E helyettesíti a T1041-et
+   - Lánctranszakció ellenőrzési határidő: max 365 nap (megbízható adófizetőknek)
+   - APA/előzetes eldöntés díjak emelkedése
+   - Automatikus elszámolás bevezetése bizonyos esetekben
+   - Automatikus fizétésegység magasabb küszöb megbíráltatóknak
+   - Adószám automatikus törlése: 90+ nap késés az EUÁ/TVÁ esetében
+   - Egyéves negatív lista-eltávolítás kérelme (munkáltatói kötelezettség esetén)
+
+9. ÚJ 114. SZAKASZ – HIVATALOS ÖSSZEÍRÓ STRUKTÚRÁK
+   - A Vagyonkezelősi Szabályozásról szóló 2024. évi T/387. törvényerejű rendelet
+   - Kötelező NAV ellenőrzés a bizalmi vagyonkezelők és magánalapítványok esetében
+   - Hatályba lépés: 2026. augusztus 31.
+   - Phasing:
+     * 2023. szept 12 előtt: adómentes áthalozás (várakozási idő nélkül)
+     * 2023. sept 12 – 2026. aug 30: 5 év tartózkodási idő kell adómenteshez
+     * 2026. aug 31 után: adómentes értékátalány megszűnik → 65/C szakasz szerinti tőkeárfolyam-rendszer
+
+10. TÜKÖRADÓ – ZSEBJOGI CÉLRA
+   - HEM (hitelesített energetikai műszaki) jogok: SZJA-mentes jövedelem
+   - Zsákmányolt HEM jogok, kedvezmények, juttatások is ingyenesek
+
+11. MEGTERVEZETT / BEVETÉSI HATÁRIDŐ
+   - Éves adónyilatkozat: május 20-ig, e-SZJA portálon keresztül
+   - Automatikus fizetésegység magasabb küszöb megbíráltatóknak
+
+12. SZÓSSÁGOK
+   - 2026. január 1. után kezdődő jövedelmekre vonatkozik a többség változás
+   - Érdemes ügyvédet/adótanácsadót megkeresni egyéni eseteknél

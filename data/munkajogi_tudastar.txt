@@ -1,0 +1,63 @@
+=== Munkajogi Alapismeretek Tájékoztató ===
+
+1. Munkaszerződés aláírása
+
+A munkaszerződésnek írásban kell lennie. A szerződő felek: a munkavállaló és a munkáltató. A szerződés tartalmazni kell:
+- A felek neve és címe
+- A munka kezdési dátuma
+- A próbaidő hosszát (max 3 hónap)
+- A munkahely címét
+- A munka körét és feladatait
+- A fizetés összegét és fizetési időkészletét
+- A munkaidő rendjét (állandó, részállás, rugalmas)
+- A nyugdíjpénztári kötelességeket
+- A szerződés hatályának vége
+
+A próbaidő alatt bármelyik fél felbontási hatállyal rendelkezik, nélkül indoklással.
+
+2. Fizetés és illetmények
+
+A minimálbér 2024-ben bruttó 266 800 Ft/hó (ezerforintos értékben). A fizetést legalább havi kétszer kell kifizetni. A munkáltató köteles az illetményt az időpontban, a szerződésben megállapított módon fizetni.
+
+A munkaidő túlbefizetés esetén a munkavállaló jogosult túlbefizetési díjra, amely a szabályos bér 50%-a.
+
+3. Szünetidő és szabadság
+
+A munkavállaló jogosult heti legalább 24 órás pihenőre ( hétvégén). Évszakhoz kötött szüneteket a munkáltató hónapok előtte jelez.
+
+A munkavállaló évi 20 nap szabadságot kap (20 évet felülnéző korhatár nélkül). A szabadság az érvényes szerződés értelmében használható fel. A szabadság díjazásáról a szerződésben rendelkezni kell.
+
+4. A munkavállaló jogai
+
+A munkavállaló jogosult:
+- Tisztességes munkafeltételekre
+- A munkahely biztonságosságára
+- Szakszervezeti tevékenységre
+- A szünetidőre
+- A fizetés megkapására
+- A munkahely megőrzésére a terhesség és szülés idején
+- A felmondás előtt szólítást kapni
+
+5. A munkáltató kötelezettségei
+
+A munkáltató köteles:
+- Tisztességes munkafeltételeket biztosítani
+- A munkahely biztonságát fenntartani
+- A munkavállalót tájékoztatni a munkavégzés feltételeiről
+- A szűrővizsgálatot elvégeztetni (munkahelyi orvosi vizsgálat)
+- A munkavállaló adatainak védelmét biztosítani (Adatvédelmi Rendelet, GDPR)
+- A munkahelyi balesetek esetén segítséget nyújtani
+
+6. A szerződés felbontása
+
+A munkaszerződést bármelyik fél felmondhatja, ha a szerződésben meghatározott felmondási határidővel rendelkezik:
+- Munkavállaló felmondása: 30 nap ( próbaidő alatt: 7 nap)
+- Munkáltató felmondása: 30 nap ( próbaidő alatt: 7 nap)
+
+A felmondásnak írásban kell történnie. A felmondás utáni utolsó fizetési nap a szerződés felbontásának napja.
+
+7. A munkavállaló védelme
+
+A munkavállaló védelmét az Munka Törvénykönyve (MT) és az adatvédelmi szabályok határozzák meg. A munkáltató nem diskriminálhat nem, kor, származás, vallás, fogyatékosság vagy politikai meggyőzés alapján.
+
+A terhes munkavállaló és az anya védelmét kiemelt szinten biztosítani kell. A terhesség alatt nem szabad felmondani, és a szülés után 24 hét szülési szabadságot kell biztosítani.

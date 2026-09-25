@@ -1,0 +1,44 @@
+# Omega Framework Project Configuration
+# File: .omega.yaml
+
+project:
+  name: "RagDemo"
+  version: "1.0.0"
+  description: "Agentic RAG Chatbot Prototype"
+  
+  # Language and framework versions
+  python: "3.12"
+  langgraph: ">=1.0.0"
+  streamlit: ">=1.30.0"
+  
+  # Model configuration
+  llm:
+    provider: "ollama"
+    model: "glm4:9b"
+    host: "http://localhost:11434"
+    
+  # RAG configuration
+  rag:
+    chunk_size: 500
+    chunk_overlap: 50
+    search_k: 4
+    embedding_model: "paraphrase-multilingual-mpnet-base-v2"
+    vectorstore: "faiss"
+    
+  # Deployment
+  deployment:
+    docker: true
+    docker_compose: true
+    ports:
+      - "8501:8501"  # Streamlit
+      - "11434:11434" # Ollama
+    
+  # Testing
+  testing:
+    evaluation_questions: 20
+    load_test_queries: 50
+    
+  # Development
+  dev:
+    venv: true
+    hot_reload: false

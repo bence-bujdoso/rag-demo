@@ -1,0 +1,35 @@
+=== Adózási Alapismeretek Tájékoztató ===
+
+1. Személyi jövedelemadó (SZJA)
+A személyi jövedelemadó 15% arányú az összes személyi jövedelemből. Az adóalany a jövedelem fejlesztője, a fizető fél (munkáltató) tartja az adóát és fizeti az adóhatóságnak.
+
+A személyi jövedelemadó fizetési kötelezettsége minden hónapban, a következő hónap 12-ére. Az adóalany köteles évente adójelentést benyújtani (év eleji egyeztetés, 20. március).
+
+2. Szja-szabályos fizetés
+A munkáltató köteles a személyi jövedelemadót a fizetésről levonva, a követkeő hónap 12-én elengedíteni. Ha a munkáltató nem teljesíti ezt, személyes felelősségre vonható.
+
+A saját vállalkozók, akik nincsenek alkalmazottak, személyre szóló adóalanyoként tartják fenn a adószámot és kötelesek havi előleg fizetésére.
+
+3. ÁFA (Általános Forgalmi Adó)
+Az ÁFA mértéke 27% az összes szolgáltatás és áru felett, amely Magyarországon kerül forgalomba. Az ÁFA-visszatérítés joga a vállalkozóké, aki regisztrálták az ÁFA-rendszerben.
+
+Az ÁFA-számlák kiadására kötelező, ha az ÁFA-rendszerbe tartozó vállalkozó szolgáltatást nyújt. Az ÁFA-számlán kitüntetni kell az ÁFA-t.
+
+4. Egészségbiztosítági járulékok
+A munkavállalóról és a munkáltatóról egyaránt járulékok szüngenek. A munkavállalói járulékok a fizetésből levonásra kerülnek (18,5%). A munkáltatói járulékok külön fizetendők (13% + 1,5% + 1,5%).
+
+A járulékok az Adó- és Pénzügyi Ellenőrzési Hivatalnak (APEH) való megfizetésére szorulnak, havi rendszerességgel.
+
+5. Nyugdíjpénztári járulékok
+A munkavállaló nyugdíjpénztári járulékot fizet a nyugdíjbiztosításra (10%). A munkáltató szintén köteles járulékot fizetni (15%). Ezek a nyugdíj alapú biztosításokhoz sorolódik.
+
+6. Adórendészeti nyilatkozat
+Minden adóalany köteles év elején (20. març) adórendészeti nyilatkozatot benyújtani, amelyben a teljes jövedelmét és a levonható költségeit feltünteti. A nyolcadik hónapig (november 20.) benyújtott adójelentés kötelező.
+
+7. Adóelőleg és különös díszszabályok
+Ha az előzetes fizetett adó meg nem felel a tényleges adóösszegnek, a különbség kiegyenlítésre kerül. Ha a fizetett előleg nagyobb, visszatérítésre kerül. Ha kisebb, pótló fizetés kötelező.
+
+A vállalkozók, akik éves forgalma 6 millió Ft-től haladja meg, kötelesek ÁFA-azonosítóval rendelkezni.
+
+8. Adócsalás és büntetések
+Az adócsalás súlyos bűncselekmény, amelyért pénzbüntetés és/vagy fegyházbüntetés ítéltethető el. Az adóhatóság ellenőrzési jogkörrel rendelkezik, és az adóalany köteles az ellenőrzések során együttműködni.

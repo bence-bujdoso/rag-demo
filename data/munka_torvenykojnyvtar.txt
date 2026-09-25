@@ -1,0 +1,88 @@
+Munka Törvénykönyve – Jogi Tájékoztató
+======================================
+E törvény a munkaviszonyok és egyéb munkáltatási jogviszonyok alapvető szabályait tartalmazza.
+
+1. § Alapvető szabályok
+A munkaviszony létrejötte, megszűnése és működése az alábbi törvényi előírások szerint zajlik.
+
+Munkaviszony létrejötte
+A munkaviszony a munkáltató és a munkavállaló között jön létre, amikor az utóbbi a前者nek vállal munkavégzést a后者 irányítása és felügyelete mellyel szemben.
+
+Próbaidő
+A munkaszerződés próbaideje legfeljebb hat hónap lehet, ha a munkavállaló nem rendelkezik közalkalmazotti vagy nyugdíjas státusszal.
+
+Munkabér
+A munkabér legalább azonnal fizetendő összeg, amely a törvényben meghatározott minimumot nem haladhatja meg. A bruttó bérre számított SZJA 15%, TB 18,5%, SZOCHO 13% vonódik le.
+
+Munkáltatói kötelezettségek
+A munkáltató köteles havi rendszerességgel szociális hozzájárulást fizeteni, valamint a személyi jövedelemadóat levonni és az adóhatóságnak megfizetni.
+
+Vállalati jogok és kötelezettségek
+A vállalkozók, akik egyéni vállalkozói tevékenységet folytatnak, kötelesek adószámot tartani fenn és havi előlegfizetést tenni az adóhatóságnak.
+
+Személyi jövedelemadó egyéni vállalkozóknál
+Az egyéni vállalkozó vállalkozói jövedelme alapján számított SZJA 15%. A vállalkozói jövedelem adóalapja a bruttó bevételből levonható a költségek és a személyes adókedvezmények.
+
+Nettó jövedelem számítása egyéni vállalkozóknál
+A nettó bevétel a bruttó bevételből levonható a vállalkozási költségek és az adó- és járulékkal szemben fizetendő összegek. A leggyakoribb költségek: iroda, szállítás, szakmai tanácsadás, eszközök, stb.
+
+Vállalkozói adóztatás
+Az egyéni vállalkozói tevékenységet folytató vállalkozó köteles szabadalmaztatni a vállalkozói jövedelmét és az adó- és járulékkal szemben fizetendő összegfeltételeket.
+
+Szociális hozzájárulás vállalkozóknál
+Az egyéni vállalkozó köteles szociális hozzájárulást fizeteni a vállalkozói jövedelméből. A járulékok: TB 18,5%, SZOCHO 13%. A járulékok alapdíja a vállalkozói jövedelem, nem a bruttó bevétel.
+
+Adó- és járulékszabályok egyéni vállalkozóknál
+Az egyéni vállalkozó köteles minden hónapban előlegfizetést tenni az SZJA-ról és a szociális járulékról. Az előleg mértéke a vállalkozói jövedelméből számít, és az adóhatósági bejelentés alapján alakul.
+
+Vállalkozói költségvetés és számvitel
+A vállalkozó köteles folyamatosan nyilvántartani a vállalkozási bevételeket és költségeket, valamint rendelkeznie a számviteli dokumentációval.
+
+Számviteli dokumentáció
+A vállalkozó köteles számlákat, kézbeszámlákat, banki kivonatokat és más finanszírozási dokumentációkat őrizni, amelyeket az adóhatóság ellenőrzés során benyújthat.
+
+Munkajogi biztosítások
+A munkavállalóra vonatkozó szociális biztosítási jogok, mint a nyugdíj, az egészségbiztosítás, a munkaerőpiaci segély, a munkavállalói járadék, a gyermekgondozási díj, stb.
+
+Munkavállalói jogok a vállalkozásban
+A munkavállaló jogosult a munkabérre, a szünetekre, a felügyeleti szabályokra, a munkabér emelésre, a szünetekre, a munkahelyi biztosításokra és a munkaügyi nyugdíjra.
+
+Vállalkozói adóalap
+A vállalkozói adóalap a vállalkozó bruttó bevételéből levonható a vállalkozási költségek és a személyes adókedvezmények. Az adóalap mértéke a vállalkozói jövedelem 15%-a.
+
+Vállalkozói adófizetési kötelezettségek
+A vállalkozó köteles minden hónapban előlegfizetést tenni az SZJA-ról és a szociális járulékról, valamint évente adójelentést benyújtani.
+
+Vállalkozói díszszabályok
+A vállalkozókra vonatkozó különleges díszszabályok, mint az átalányadózás, a KATA-rendszer, a szabadalmi díszszabályok és a vállalkozói adóalap kedvezmények.
+
+KATA (Kisvállalkozói Adózási Rendszer)
+A KATA egy egyszerűsített adózási rendszer az egyéni vállalkozók számára, amely havi fix összegű adót igényel HUF 50,000/év. A KATA-cél az adóalap csökkentése a vállalkozói tevékenységben.
+
+Átalányadózás
+Az átalányadózás olyan adózási rendszer, amely a vállalkozói bevételi arányok alapján számítja meg az adót. A kiadási arány 40%-os, amelyből levonható a vállalkozói adóalap.
+
+Vállalkozói adókedvezmények
+A vállalkozók számára elérhető adókedvezmények, mint a családi adóengedmény, az ifjúsági kedvezmény, az első házassági kedvezmény és a munkaügyi kedvezmények.
+
+Vállalkozói jogcímek
+A vállalkozói jogcímek a vállalkozói adóalap kedvezmények, a vállalkozói adóalap csökkentései, a vállalkozói jogcímek és a vállalkozói jogcímek.
+
+Munkaügyi nyugdíj
+A munkavállaló jogosult a munkaügyi nyugdíjra, amely a munkáltatói TB-járulékból fizetendő. A nyugdíj összegét a munkaügyi hatóság határozza meg.
+
+Szociális ellátások
+A munkavállalók jogosultak a szociális ellátásokhoz, mint a gyermekgondozási díj, a családi pótlék, a munkanélküli segély és a munkavállalói nyugdíj.
+
+Munkáltatói kötelezettségek a vállalkozásban
+A munkáltató köteles a munkavállaló szociális biztosítási jogaival kapcsolatos előírásokat betartani, beleértve a TB-járulékot, a SZOCHO-t és a munkáltatói járulékokat.
+
+Vállalkozói számláztatás és adóalap
+A vállalkozó köteles számlákat kibocsátani a szolgáltatásáról, és az adóalapot a bruttó bevételből levonható költségek alapján számítani.
+
+Munkaügyi ellenőrzések
+A munkaügyi hatóságok felügyelik a munkáltatói kötelezettségek teljesítését, beleértve a szociális járulékokat, a munkabér előlegfizetését és a munkaügyi biztosításokat.
+
+Vállalkozói adóalap kedvezmények
+A vállalkozói adóalap kedvezmények, mint a családi adóengedmény, az ifjúsági kedvezmény, az első házassági kedvezmény és a munkaügyi kedvezmények.
+

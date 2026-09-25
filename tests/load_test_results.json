@@ -1,0 +1,57 @@
+{
+  "metadata": {
+    "num_queries": 1,
+    "start_time": "2026-09-24T14:12:51.138819",
+    "queries": [
+      "Mennyi a munkaszerződés próbaideje?"
+    ]
+  },
+  "latencies": [
+    13.352507999981754
+  ],
+  "successes": 1,
+  "errors": 0,
+  "error_details": [],
+  "route_distribution": {
+    "rag": 1,
+    "tool": 0,
+    "direct": 0,
+    "error": 0
+  },
+  "stats": {
+    "count": 1,
+    "avg_latency": 13.352507999981754,
+    "median_latency": 13.352507999981754,
+    "min_latency": 13.352507999981754,
+    "max_latency": 13.352507999981754,
+    "std_latency": 0,
+    "p95_latency": 13.352507999981754,
+    "p99_latency": 13.352507999981754
+  },
+  "end_time": "2026-09-24T14:13:04.491390",
+  "duration_seconds": 13.352577,
+  "bottleneck_analysis": {
+    "primary": "RAG túlzott használata",
+    "severity": "medium",
+    "details": [
+      "A 100% kérés RAG-t használ. Ez azt jelzi, hogy az agent túl gyakran hívja a tudástárt. Optimalizálható az irányítási logikával.",
+      "A rendszer memory-ot használt a FAISS indexeléséhez. A 6 dokumentum kiskömben van, de több esetén bővíteni kell."
+    ]
+  },
+  "optimization_suggestions": [
+    {
+      "priority": "medium",
+      "category": "RAG Optimization",
+      "suggestion": "FAISS indexelés caching és előtelepítés",
+      "details": "Az első kérésnél a FAISS index felépítése hosszú (10-30s). Optimalizáció: index előtelepítése Docker konténer indításakor, és memory-ben tartása. Ezenkívül a index mentése és újrahasználata docker-compose volume-vel.",
+      "expected_improvement": "Eliminates first-request latency"
+    },
+    {
+      "priority": "medium",
+      "category": "Architecture",
+      "suggestion": "Batch query processing és aszinkron LLM hívások",
+      "details": "Jelenleg minden kérés egy külön LLM hívást eredményez. Optimalizáció: batch processing, ahol több kérést egyszerre feldolgoz az LLM. Ez különösen hasznos nagyobb terhelések esetén.",
+      "expected_improvement": "Throughput increase: 2-3x"
+    }
+  ]
+}

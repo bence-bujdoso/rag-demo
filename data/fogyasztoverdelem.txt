@@ -1,0 +1,93 @@
+=== Magyar Fogyasztóvédelmi Jogok Tájékoztató ===
+
+1. A fogyasztóvédelem alapelvei
+
+A magyar fogyasztóvédelmi rendszer a fogyasztó védelmét célozza meg, és a fogyasztóképesség és a piaci átláthatóság fokozását szolgálja. A fogyasztóvédelmi törvény (1997. évi LXV. törvény) határozza meg a jogi kereteket.
+
+A fogyasztóvédelem fő célja:
+- A fogyasztók jogainak érvényesítése
+- A piaci verseny szorgalmazása
+- A biztonságos termékek és szolgáltatások biztosítása
+- Az átlátható piaci információk biztosítása
+
+2. A fogyasztó jogai
+
+Minden fogyasztó jogosult:
+- Biztonságos terméket és szolgáltatást kapni
+- Tájékoztatást kapni a termékről/szolgáltatásról
+- A termékről és szolgáltatásról vonatkozó információkhoz való hozzáféréshez
+- A panasz és érvényesítés lehetőségéhez
+- A fogyasztóvédelmi szervekkel való kapcsolatfelvételhez
+- A hibás termékek cseréjéhez vagy javításához
+- A piaci tájékoztatáshoz és átláthatósághoz
+
+3. Termékminőség és felelősség
+
+A termékminőségre vonatkozóan a gyártó és a forgalmazó felelős:
+- A termék biztonságossága
+- A termék megfelelése a leírásnak
+- A termék hibája esetén a felelősség (termékbírság)
+- A garancia és a javítási kötelezettség
+
+A termékbírság (product liability) a fogyasztó a gyártóval szemben érvényesítheti, ha a termék hibája sérülést okozott.
+
+4. Távolságban kötött szerződések (online vásárlás)
+
+Az online vásárlás esetén a fogyasztó külön jogokkal rendelkezik:
+- A 14 napos elbocsátási idő (nézzen vissza az oldalon, a fizetés után 14 napon belül)
+- A teljes visszatérítés a fizetett összegből
+- A tájékoztatási kötelezettség (14 napi tájékoztatás)
+- A fizetés és a szállítás időpontjának egyértelműsítése
+
+Az elbocsátási jog nem vonatkozik a digitális tartalmakra, ha a fogyasztó kifejezetten egyetértett a megsemmisítésével.
+
+5. Szolgáltatási szerződések
+
+A szolgáltatási szerződés feltételei között:
+- A szolgáltató köteles a szerződésben megadott minőségben végezni a szolgáltatást
+- A fogyasztó köteles a díjat megfizetni
+- A szerződés bármelyik fele feloldható a szerződés feltételei alapján
+- A hibás szolgáltatás esetén a fogyasztó jogosult a javításra vagy az ár csökkentésére
+
+6. Piaci tájékoztatás és átláthatóság
+
+A piaci tájékoztatás alapelve, hogy a fogyasztó megkapja a termékhez és szolgáltatáshoz szükséges információkat:
+- Az ár és a díjak feltüntetése
+- A termékműszaki adatok és a leírás
+- A felhasználói értékelések és vélemények
+- A gyártói és forgalmazói adatok
+- A lejárati dátum (ez esetben)
+
+7. Panasz és érvényesítés
+
+Ha a fogyasztó panaszkodni szeretne:
+- Először a szállítónál vagy szolgáltatónál érdemes panaszt tenni
+- Ha nem kap választ, a fogyasztóvédelmi hatósághoz fordulhat (OGYÉI)
+- A bírósági eljárás a fogyasztóvédelmi törvény szerint elérhető
+- A fogyasztóvédelmi szervek közreműködhetnek az egyeztetésben
+
+8. Az OGYÉI (Országos Fogyasztóvédelmi Hatóság)
+
+Az OGYÉI a magyar fogyasztóvédelmi hatóság, amely:
+- A fogyasztóközös érdekeket képviseli
+- A piaci felügyeletet végzi
+- A panaszokat vizsgálja
+- A piaci részvételi szabályokat szabályozza
+- A fogyasztóközös tájékoztatást készíti
+
+9. Digitális fogyasztóvédelem
+
+A digitális piacon a fogyasztóvédelem speciális kérdéseket foglal magában:
+- Az adatvédelem és a személyes adatok védelme
+- A rosszindulatú szoftverek és csalódásos hirdetések megelőzése
+- A digitális szolgáltatások átláthatósága
+- Az online tranzakciók biztonsága
+
+10. Jövőbeli fogyasztóvédelmi trendek
+
+A fogyasztóvédelmi trendek között szerepelnek:
+- A digitális fizetések és az e-kereskedelem bővülése
+- A mesterséges intelligencia a fogyasztóvédelemben (pl. csalódásos hirdetések felismerése)
+- A zölt fogyasztás és a fenntartható terméktermelés
+- Az átláthatósági követelmények fokozása
+- A csoportos vádak és a fogyasztóvédelmi szervek együttműködése

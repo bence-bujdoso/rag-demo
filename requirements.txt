@@ -1,0 +1,44 @@
+# Agentic RAG Chatbot Requirements
+
+## Core Dependencies
+
+# LangGraph & LangChain
+langgraph>=1.0.0
+langchain-core>=0.1.0
+langchain-community>=0.0.25
+langchain-ollama>=0.1.0
+langchain-text-splitters>=0.1.0
+langsmith>=0.1.0
+langchain-classic>=0.1.0
+langchain-protocol>=0.0.19
+langchain-core>=0.1.0
+
+# Ollama client
+ollama>=0.1.0
+
+# Embedding & Vector Store
+# A TF-IDF alapú RAG nem igényel sentence-transformers-t vagy faiss-cpu-t,
+# de opcionálisan elérhetők a következők:
+# sentence-transformers>=2.2.0  # HuggingFace embeddingek (nem aktív)
+# faiss-cpu>=1.7.0             # Vector store (nem aktív, TF-IDF-alapú RAG)
+numpy>=1.24.0
+
+# Streamlit UI
+streamlit>=1.30.0
+
+# HTTP & Utilities
+httpx>=0.25.0
+requests>=2.31.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+aiohttp>=3.9.0
+
+# Optional
+# transformers (included via sentence-transformers)
+# torch (included via sentence-transformers)
+
+# System
+pillow>=10.0.0
+
+# Hungarian text processing
+# (sentence-transformers handles Hungarian already)

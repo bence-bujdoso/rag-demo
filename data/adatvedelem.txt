@@ -1,0 +1,77 @@
+=== Magyar Adatvédelmi Jogok (GDPR) Tájékoztató ===
+
+1. Az általános adatelkülönítési rendelet (GDPR)
+
+Az (EU) 2016/679/EU rendelet, az általános adatelkülönítési rendelet (GDPR) 2018. május 25-én lépett hatályba Magyarországon is. A GDPR célja a személyes adatok védelme és az adatkezelő felek felelősségre vonása.
+
+- A személyes adatok jogilag, átláthatóan és lawfully feldolgozása
+- A célhoz kötött feldolgozás (csak a meghatározott célra)
+- A minimális adatokelve (csak a szükséges adatok)
+- Az adatok pontossága
+- A tárolási korlát (nem tárolhatjuk újólong)
+- A feldolgozás jogosultsága és átláthatósága
+
+2. Az adatkezelő felek kötelezettségei
+
+Az adatkezelő (pl. munkáltató, cég) köteles:
+- Az adatbetartást biztosítani
+- Az adatvédelmi hatósági nyilvántartásba venni magát
+- Az adatlépéseket a jogi alap alapján végezni
+- Az adatbetartási jogokat tiszteletben tartani
+- A adatlekérdezések gyorsan elintézése (30 nap)
+- A adatvédelmi beavatkozási események jelentése (72 óra)
+
+3. A személyes adatok jogalapjai
+
+A személyes adatok feldolgozásához legalább egy jogi alapra van szükség:
+- Az érdekelt személy beleegyezése
+- A szerződés teljesítése
+- A jogkötelezettség teljesítése
+- A fontos érdeklődés (legitim interest)
+- A közhöz való tartozás
+
+4. Az érdekelt személy jogai (adatbétartási jogok)
+
+Az érdekelt személy jogosult:
+- A személyes adatai ellenőrzésére (hozzáférési jog)
+- A helytelen adatok javítására (javítási jog)
+- A felesleges adatok törlésére (eltörlési jog / "the right to be forgotten")
+- A feldolgozás korlátozására (korlátozási jog)
+- A személyes adatai átvitelére másik adatkezelőnek (átvihetőség joga)
+- A feldolgozással szemben tiltakozásra (tiltakozási jog)
+- A automatizált döntésekre vonatkozó kérdésre (automatizálási jog)
+
+5. Adatlekérdezés és válaszadási kötelezettség
+
+Az adatkezelő köteles 30 napon belül válaszolni az érdekelt személy adatlépésre vonatkozó kérdésére. A válasz ingyenesen elérhető, ha az kérést nem minősíti alapvetően kétszerre.
+
+6. Adatvédelmi beavatkozási események (Data Breach)
+
+Ha személyes adatokat érintő beavatkozó esemény történik (pl. adatlekérés, elvesztés, illetéktelen hozzáférés), az adatkezelő:
+- 72 órán belül értesítenie kell az adatvédelmi hatóságot (NMHH)
+- Az érintett személyeket is értesítenie kell, ha a kockázat magas
+- A eseményt dokumentálnia kell
+
+7. A adatvédelmi irányelv (DPO)
+
+Nagyvállalatoknak és közintézményeknek köteles adatvédelmi irányelőllt (DPO) kinevezni. A DPO feladata a GDPR betartásának monitorozása és az adatvédelmi hatósággal való kapcsolattartás.
+
+8. Büntetések a GDPR megsértése miatt
+
+A GDPR megsértése súlyos büntetéseket von maga után:
+- 10 millió EUR vagy 2% a globális éves forgalomból (a vállalkozás méretétől függően)
+- 20 millió EUR vagy 4% a globális éves forgalomból
+- A felügyeleti bírságokat az NMHH (Nemzeti Adatvédelmi és Információszabadság Hatóság) szabályozza
+
+9. Adatvédelem a munkaügyben
+
+A munkavállaló személyes adatait a munkáltató köteles védeni. A munkavállaló adatait csak a munkaügyi célból lehet feldolgozni, és az adatbetartási jogokat tiszteletben kell tartani.
+
+A munkáltató köteles:
+- Az adatvédelmi tájékoztatóban tájékoztatni a munkavállalót
+- A személyes adatokat biztonságosan tárolni
+- A munkavállaló adatvédelmi jogait tiszteletben tartani
+
+10. Nemzetközi adatátvitel
+
+Ha személyes adatokat az EU-n kívülre szándékozzák átvinni, az adatvédelmi megfelelő szintet kell biztosítani. Az EU-n kívülire való átvitel az adequacy decision (megfelelési határozat) alapján lehetséges, vagy szabványos szerződési feltételekkel (SCC).

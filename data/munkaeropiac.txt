@@ -1,0 +1,83 @@
+=== Magyar Munkaügyi Ellátás és Szociális Jogok ===
+
+1. Nyugdíj és szociális ellátás
+
+A magyar szociális rendszer két fő ágból áll: a nyugdíj ellátás és a szociális segélyek. A nyugdíjba járulékot a munkavállaló és a munkáltató egyaránt fizeti. A nyugdíj kiszámításához a munkavállaló életkorát, a munkaviszonyának hosszát és a fizetési bázist figyelembe veszik.
+
+Az állami nyugdíj (korábban: korábbi nyugdíj) a munkavállaló 62 éves korban válik jogosítvánnyá. A korai nyugdíj esetén 5 évvel az adott kor előtt lehet visszanyerni a jogosítványt, ha a munkavállaló rendelkezik bizonyos feltételekkel (pl. 40 évig dolgozott).
+
+2. Foglalkoztatási támogatások
+
+A Magyar Köztársaság számos támogatást biztosít a foglalkoztathatóaknak:
+- Munkahelyteremtési támogatás: új munkahely létrehozásakor elérhető (200-500 ezer Ft/fő)
+- Képzési támogatás: szakképzés lebonyolításakor jár
+- Gyakornoki támogatás: 3-12 hónapos gyakorlatra
+- Szociális helyzetű személyek támogatása: munkaerőpiaci részvétel elősegítése
+
+A támogatásokhoz a Magyar Centrális Statisztikai Hivatal (KSH) és a Nemzeti Foglalkoztatási Alap (NEA) kapcsolódik.
+
+3. Munkaerő-piaci programok
+
+A munkaerő-piaci programok célja a munkanélkülieknek és a csoportos munkavállalók számára a foglalkoztatás elősegítése. A programok tartalmazzák:
+- A közösségi munkák lehetőségét
+- A szociális vállalkozások támogatását
+- A tartós foglalkoztatás ösztönzését
+- A szakmai képzések finanszírozását
+
+4. Nemzetközi munkajogi alapelvek
+
+Magyarország a Munkaügyi Szervezet (ILO) tagja, és az ILO alapelveit betartva szervezi a munkaügyi rendszert. A nemzetközi munkajogi alapelvek között szerepelnek:
+- A szabad választású foglalkoztatás elve
+- A munkavállalók szabad szervezkedési joga
+- A munkaügyi egyenlőség elve
+- A nemzetközi munkaszabályok betartása
+
+5. Foglalkoztatási tilalom és előírások
+
+A munkavállaló életkorának megfelelően bizonyos munkakörökben tilalom van:
+- A 15 év alattiaknak nem szabad nehéz fizikai munkát végezni
+- A 18 év alattiaknak nem dolgozhatnak éjszakán
+- A terhes nőknek meg kell szünniük a veszélyes munkát
+
+6. A munkavállaló és a munkáltató kapcsolata
+
+A munkavállaló és a munkáltató között a munkaszerződés állapította meg a kapcsolatot. A munkáltató köteles a munkavállalót a munkahelyi biztonságra és a szakképzésre vonatkozóan tájékoztatni. A munkavállaló köteles a munkahelyi szabályokat betartani.
+
+7. Szociális segélyek
+
+A szociális segélyek olyan támogatások, amelyeket az egyéni megélhetés biztosítására szolgálnak:
+- Lakhatási segély (csökkentett lakbér)
+- Étkezési segély (táppénzalap)
+- Gyermekgondozói segély (a gyermek ellátásához)
+- Egészségügyi segély (orvosi ellátás)
+- Szeniori segély (idős személyek támogatása)
+
+A szociális segélyekhez a helyi önkormányzatok és a Nemzeti Adó- és Vámhivatal (NAV) jogosultsággal rendelkezik.
+
+8. Adatvédelem a munkaügyben
+
+A munkavállaló személyes adatait a GDPR (2016/679/EU) és a magyar adatvédelmi törvény (XV. törvény) védi. A munkáltató köteles az adatokat csak a munkaügyi célból kezelni, és az adatbetartást biztosítani.
+
+A munkavállaló jogosult:
+- Az adatai elérésére
+- Az adatok javítására
+- Az adatok törlésére
+- A数据处理 korlátozására
+- A személyes adatai átvitelére más szolgáltatónak
+
+9. Munkaügyi peres eljárás
+
+Ha a munkavállaló a munkáltatóval szemben jogi érvekkel rendelkezik, jogalapja van munkaügyi peres eljárásba lépni. A munkaügyi bíróság eljárása a munkaügyi törvénykönyv (MT) alapján zajlik.
+
+A munkaügyi eljárás előtti kötelező békítési kísérletet követően bíróság előtt is megosztható az ügy.
+
+10. Jövőbeli munkaerő-piaci trendek
+
+A munkaerő-piaci trendek között szerepelnek:
+- A távollétű munka (remote work) bővülése
+- A digitális munkaplatformok megjelenése
+- A mesterséges intelligencia bevonása a munkavégzésbe
+- A zöld foglalkoztatás növekedése
+- A rugalmas munkaidő formátumok megjelenése
+
+Ezek a trendek módosítják a munkaszerződési feltételeket és a munkavállaló jogait.

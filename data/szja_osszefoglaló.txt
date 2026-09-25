@@ -1,0 +1,58 @@
+
+# Személyi Jövedelemadó (SZJA) – Magyar Adórendszer
+
+
+# Bevezetés
+A személyi jövedelemadó (SZJA) a magánszemélyek által megszerzett jövedelmek után fizetendő, egységes kulcsú közvetlen adó. A szabályait a személyi jövedelemadóról szóló 1995. évi CXVII. törvény (a továbbiakban: Szja tv.) határozza meg.
+
+
+# Az adóalap
+Az adóalap a jövedelem, amely a következő kategóriákba tartozik:
+- Fizetési jövedelem (munkabér, bér, egyéb juttatások)
+- Nyugdíj, tiszti nyugdíj, más jövedelem
+- Tőkéjelet (tőkejövedelem, díjak, jutalmak)
+- Ingatlan-jövedelem
+- Egyéni vállalkozói jövedelem
+- Termelői jövedelem
+- Más jövedelmek
+
+
+# Az adó mértéke
+- Alap adószabály: 15%
+- Kivételek és kedvezmények alkalmazhatók
+- A munkaadót (13% vagy 15%) a munkáltató fizeti le
+- Önálló adóbeszámoló: évente maximum kétszer
+
+
+# Szja-szabályok módosításai 2024-ben
+A 2024. évi LV. törvény számos módosítást hozott a személyi jövedelemadó területén, többek között:
+- A családi kedvezmények bővítése
+- A 25 év alatti fiatalok kedvezményének emelése
+- A 30 év alatti anyák kedvezményeinek módosítása
+- Az átalányadózás módosításai
+- A tőkejövedelem adóztatásának módosítása
+
+
+# Adókedvezmények
+- Családi kedvezmény
+- Személyi kedvezmény
+- Az első házasok kedvezménye
+- 25 év alatti fiatalok kedvezménye
+- 30 év alatti anyák kedvezménye
+- Négy vagy több gyermeket nevelő anyák kedvezménye
+- Gyermekgondozási díj
+- Csecsemőgondozási díj
+
+
+# Adóelszámolás
+- A munkáltató fizeti le az adóeltartozást
+- Az adóelőleg havi rendszerességgel kerül levonásra
+- Az adóbeszámoló: az adóév végét követő év május 20-áig
+- Az adóvisszatérítés: 30 nap alatt
+- A részleges adóvisszatérítés: a kérelmezőnek kell igazolni
+
+
+# Nemzetközi szempontok
+- Kettős adóztatás elkerülésére egyezmények léteznek
+- A külföldi jövedelem adóztatási joga
+- A magyar adóhatóságokkal való együttműködés

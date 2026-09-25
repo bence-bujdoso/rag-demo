@@ -1,0 +1,76 @@
+
+# Munkaszerződési Jog – Teljes Áttekintés
+
+
+# Bevezetés
+A munkaszerződési jog Magyarországon a munkaviszonyok létrehozásáról, módosításáról és megszűnéséről szabályoz. A fő jogforrás a Munka Törvénykönyvéről szóló 1992. évi XXII. törvény, amelyet a 2012. évi I. törvény módosított.
+
+
+# A munkaszerződés alapelvei
+A munkaszerződés a munkavállaló és a munkáltató közötti jogi szerződés, amelynek létrejötte, értelmezése és hatálya a munkajog szabályaira hivatkozik. Alapvető elvei:
+- A szabad munkaviszony-létrejövetel elve
+- A munkavállaló védelmének elve
+- Az egyenlő bánásmód elve
+- A tájékoztatás és a jófaithű együttműködés elve
+
+
+# A munkaszerződés tartalomjegyzéke
+A munkaszerződésnek az alábbi tartalomjegyzéki elemei kell hogy legyenek:
+- A munkavállaló neve, születési dátuma, lakcíme
+- A munkáltató neve, székhelye, adószáma
+- A munkakör leírása
+- Az alapbér és egyéb juttatások
+- A munkaidő rendje
+- A próbaidő hossza
+- A munkavégzés helye
+- A munkabér fizetésének módja és ideje
+
+
+# Próbaidő
+A munkaszerződésben a felek a munkaviszony kezdetétől számított legfeljebb három hónapig terjedő próbaidőt köthetnek ki. Kollektív szerződés alapján ez akár hat hónap is lehet. A próbaidő egy alkalommal meghosszabbítható, de összesen nem haladhatja meg a három hónapot.
+
+
+# Munkaidő és pihenőidő
+- Normál munkaidő: napi 8 óra, heti 40 óra
+- Teli munkaidő: napi legfeljebb 12 óra
+- Munkaidőkeret: max 4 hónap (2 hónap kisebb munkáltatóknál)
+- Heti pihenő: minimum 35 óra
+- Évenkénti szabadság: minimum 20 nap
+
+
+# Munkabér és fizetések
+- A munkabért a munkavállaló munkájáért cserébe kapja
+- A fizetés legalább havi egyszer kell, hogy megtörténjen
+- A munkabért nem levonhatják a bérleti díjból, adókból és más kötelezettségekből
+- A munkabér védelme: a munkáltató nem állapíthat meg olyan feltételeket, amelyek a munkavállaló szabadon rendelkezését korlátozzák
+
+
+# Munkaviszony megszűnése
+- Felmondás: a munkáltató és a munkavállaló is felmondhatja a munkaviszonyt
+- Felmentés: közös egyeztetés mellett
+- Végkielégítés: a munkaviszony megszűnésekor járó díj
+- A határozott idejű munkaviszony lejártakor szümegényesen megszűnik
+
+
+# Munkavállalói jogok
+- Jog a tájékoztatásra
+- Jog a munkaügyi bírósági eljáráshoz
+- Jog a szakszervezeti tagságra
+- Jog a kollektív szerződéskötéshez
+- Jog a munkaügyi szülői szabadságra
+- Jog a munkaerő-piaci szünetre
+
+
+# Munkáltatói kötelezettségek
+- A munkavállalót tájékoztatnia kell a munkafeltételekről
+- A munkaügyi biztonságról és munkavédelemről
+- A munkabér időbeni fizetéséről
+- A munkavállaló adónyilvántartásáról
+- A munkahely biztonságáról
+
+
+# Munkaügyi bíróságok és eljárások
+- A munkaügyi bírságok hatáskörébe tartoznak a munkaviszonyokból eredő jogviták
+- A per indítása: a munkaügyi bíróságnál
+- Az eljárás gyors, nem peres jellegű
+- A határidők betartása kötelező

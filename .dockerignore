@@ -1,0 +1,49 @@
+# Docker ignore file
+# .dockerignore
+
+venv/
+.git/
+.gitignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info
+dist/
+build/
+.eggs/
+*.log
+.gitignore
+.dockerignore
+Dockerfile
+docker-compose.yml
+README.md
+docker-compose.override.yml
+.env
+.omega.yaml
+tests/
+data/
+# Don't ignore data - it's needed at runtime
+!data/
+*.md
+# Ignore everything else
+*
+!*.py
+!*.txt
+!*.md
+!*.yml
+!*.yaml
+!*.json
+!data/
+!ui/
+!rag/
+!agent/
+!tests/
+!Dockerfile
+!requirements.txt
+!docker-compose.yml
+!README.md
+!.omega.yaml
