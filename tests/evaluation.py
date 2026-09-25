@@ -20,7 +20,7 @@ EVALUATION_QUESTIONS = [
     },
     {
         "id": 2,
-        "question": "Mi a minimálbér 2024-ben bruttó?",
+        "question": "Mi a minimálbér 2026-ben bruttó?",
         "expected_keywords": ["266", "266800", "266.800", "minimálbér", "bruttó"],
         "category": "munkajog"
     },

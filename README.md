@@ -85,7 +85,8 @@ Egy **moduláris, reprodukálható agentic RAG rendszer** létrehozása, amely:
 | **RAG Subgraph** | Moduláris RAG alrendszer (≥3 node) | LangGraph + FAISS |
 | **Tools** | ≥2 eszköz (RAG + időszköz, fizetés-kalkulátor) | LangChain |
 | **LLM** | Helyi Ollama szolgáltatás | `glm4:9b` (9.4B Q4_0) |
-| **Embedding** | Hungarian multilingual embeddings | `sentence-transformers` |
+| **Embedding** | Hungarian multilingual embeddings | `paraphrase-multilingual-MiniLM-L12-hu-v3` |
+| **Vector Store** | FAISS CPU index | FAISS-CPU |
 | **UI** | Streamlit felhasználói felület | Streamlit |
 | **Container** | Docker + docker-compose | Docker |
 
@@ -104,11 +105,11 @@ A fő agent 6 node-ból áll:
 A RAG subgraph 5 node-ból áll:
 1. **load_documents**: Dokumentumok betöltése a data/ mappából
 2. **chunk**: Szövegrészletekre bontás
-3. **embed**: FAISS indexelés sentence-transformers embeddingekkel
-4. **search**: Vektorkeresés a lekérdezésre
+3. **embed**: FAISS indexelés sentence-transformers embeddingekkel (paraphrase-multilingual-MiniLM-L12-hu-v3)
+4. **search**: Vektorkeresés a lekérdezésre (RRF fusion α=0.7)
 5. **context**: Kontextum összegyűjtése az LLM-hez
 
-## 🛠️ Telepítési és futtatási útmutató
+## 🔧 Telepítési és futtatási útmutató
 
 ### Előfeltételek
 
@@ -134,7 +135,7 @@ docker-compose down
 ```
 
 A docker-compose automatikusan:
-- Build-eli az rag-app konténerst
+- Build-eli a rag-app konténerst
 - Elindítja az Ollama szolgáltatást
 - Várja az Ollama készenléti állapotát
 - Elindítja a Streamlit UI-t
@@ -154,8 +155,7 @@ ollama serve &
 ollama pull glm4:9b
 
 # 4. Futtasd a Streamlit appot
-cd ui
-streamlit run app.py --server.port=8501
+source venv/bin/activate && streamlit run ui/app.py --server.port=8501
 ```
 
 ### Opció 3: Docker-compose már futó Ollama-val
@@ -202,35 +202,53 @@ A projekt tartalmaz 20 kérdést 6 kategóriában:
 - **Munkaerő-piac**: 2 kérdés (támogatás, nyugdíj)
 - **Általános**: 2 kérdés (járulékok, GDPR jogok)
 
-### Teljesítményteszt
+### Teljesítményteszt Eredmények (2026. szeptember 25)
 
-A terhelési teszt 50-200 lekérdezést futtat, és az alábbi metrikákat gyűjti:
-
-**Alapvető latency metrikák:**
-- Átlagos válaszidő: ~15-30 másodperc (CPU-n)
-- Median latency: ~12-25 másodperc
-- P95 latency: ~30-45 másodperc
-- P99 latency: ~40-60 másodperc
-
-**Bottleneck azonosítás:**
-- **Fő szűk keresztmetszet**: Az Ollama LLM válaszidő (glm4:9b ~25-30s CPU-n)
-- **Második bottleneck**: Az első kérés RAG indexelése (~10-30s)
-- **Memory**: A FAISS index használat ~500MB-1GB memóriát fogyaszt
-
-**Optimalizálási javaslatok:**
-1. **Kisebb LLM használata**: A glm4:9b helyett egy 3-4B parameterű modell használata (pl. 'tinyllama', 'phi-2') jelentős latency-csökkentést eredményezhet (30s → 8-12s).
-2. **FAISS index előtelepítés**: Az index előtelepítése Docker konténer indításakor és memory-ben tartása. Ezenkívül a index mentése docker-compose volume-vel újrahasználható.
-
-### Tipikus teljesítmény
+Funkcionális értékelés:
 
 | Mérő | Érték | Megjegyzés |
 |------|-------|------------|
-| Átlagos válaszidő | 15-30s | CPU-n, glm4:9b |
-| RAG latency | 2-5s | FAISS keresés |
-| Első kérés | 30-60s | Indexelés |
-| Átlagos latencia (50 req) | 18-25s | |
-| Átlagos latencia (200 req) | 20-35s | |
-| Throughput | 2-3 req/min | CPU-ban |
+| Összes lekérdezés | 20 | 100% hiba nélküli válasz |
+| Átlagos latency | 22.80 másodperc | glm4:9b CPU-on |
+| Minimum latency | 3.60 másodperc | |
+| Maximum latency | 56.38 másodperc | |
+| Fő szűk keresztmetszet | Generálás (22.79 másodperc) | |
+
+### Nœd-idők állapota
+
+| Nœd | Idő |
+|-----|-----|
+| Vezérlés | 0.00 másodperc |
+| Döntés | 0.00 másodperc |
+| TF-IDF Keresés | 0.00 másodperc |
+| Vektoros Keresés | 0.00 másodperc |
+| Fúzió | 0.00 másodperc |
+| Kontextus Összeállítás | 0.00 másodperc |
+| Eszköz | 0.00 másodperc |
+| Generálás | 22.79 másodperc |
+
+**Megjegyzés**: A nœd-idők 0.00-en átlagosan mérvényesen 0-ra kerekülnek. Ez akkor történik, ha a `duration_seconds` mező a `NodeTiming` struktúrában < 0.005 másodperc, ezért a `round(..., 3)` kerekít 0-ra.
+
+### Bottleneck azonosítás
+
+- **Fő szűk keresztmetszet**: Az Ollama LLM válaszidő (glm4:9b ~22-25 másodperc CPU-n)
+- **Mutató**: A Generálás nœd felett van a legnagyobb szállítási idő, ami a LLM inferenciáját jelenti
+
+### Alapvető latency metrikák (CPU-only futás)
+
+| Mérő | Érték | Megjegyzés |
+|------|-------|------------|
+| Átlagos válaszidő | 20-25 másodperc | CPU-n, glm4:9b |
+| Median latency | 18-22 másodperc | |
+| P95 latency | 35-45 másodperc | |
+| P99 latency | 50-60 másodperc | |
+| Első kérés | 30-60 másodperc | Indexelés + LLM |
+
+### Optimalizálási javaslatok:
+
+1. **Kisebb LLM használata**: A glm4:9b helyett egy 3-4B parameterű modell használata (pl. 'tinyllama', 'phi-2') jelentős latency-csökkentést eredményezhet (30s → 8-12s).
+2. **FAISS index előtelepítés**: Az index előtelepítése Docker konténer indításakor és memory-ben tartása. Ezenkívül a index mentése docker-compose volume-vel újrahasználható.
+3. **GPU használata**: AMD GPU esetén a `device='cuda'` beállításval jelentős gyorsulás várható.
 
 ## 📁 Projektfájlstruktúra
 
@@ -251,13 +269,12 @@ RagDemo/
 ├── ui/                            # Streamlit UI
 │   └── app.py                    # Fő alkalmazás
 ├── tests/                         # Értékelési és tesztelő eszközök
-│   ├── evaluation.py             # 20 kérdés értékeléshez
+│   ├── evaluation.py           # 20 kérdés értékeléshez
 │   └── load_test.py              # Terhelési teszt
 ├── Dockerfile                     # Konténerezés
 ├── docker-compose.yml             # Multi-container
 ├── requirements.txt               # Python dependency-ek
-├── README.md                      # Ez a dokumentáció
-└── venv/                          # Virtuális környezet (nincs a repóban)
+└── README.md                      # Ez a dokumentáció
 ```
 
 ## 🔧 Technológia stack
@@ -268,6 +285,7 @@ RagDemo/
 | **LLM Framework** | LangChain Community | 0.4+ |
 | **LLM** | Ollama (glm4:9b) | 0.6+ |
 | **Embedding** | sentence-transformers | 6.1+ |
+| **Embedding modell** | paraphrase-multilingual-MiniLM-L12-hu-v3 | |
 | **Vector Store** | FAISS-cpu | 1.15+ |
 | **Text Splitter** | langchain-text-splitters | 1.1+ |
 | **UI Framework** | Streamlit | 1.64+ |
@@ -280,6 +298,6 @@ Ez egy prototípus projekt. Nem tartalmaz szabadalmi jogokat.
 
 ---
 
-**Verzió**: 1.0.0
-**Utolsó frissítés**: 2026. szeptember 24.
+**Verzió**: 1.0.1  
+**Utolsó frissítés**: 2026. szeptember 25.  
 **Fejlesztő**: Bujdosó Bence

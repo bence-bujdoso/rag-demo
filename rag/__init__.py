@@ -295,6 +295,6 @@ def run_rag_subgraph(query: str, config: Optional[RagConfig] = None) -> dict:
 
 if __name__ == "__main__":
     pass # print("RAG Subgraph teszt...")
-    result = run_rag_subgraph("Mennyi a minimálbér 2024-ben?")
+    result = run_rag_subgraph("Mennyi a minimálbér 2026-ben?")
     pass # print(f"Kontextum: {result['context'][:300]}...")
     pass # print("✅ RAG Subgraph teszt kész!")

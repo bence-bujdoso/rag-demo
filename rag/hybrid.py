@@ -27,7 +27,7 @@ class HybridConfig:
     chunk_size: int = 800
     chunk_overlap: int = 100
     search_k: int = 10
-    embedding_model: str = "paraphrase-multilingual-MiniLM-L12-v2"
+    embedding_model: str = "karsar/paraphrase-multilingual-MiniLM-L12-hu-v3"
     rrf_k: int = 60
     alpha: float = 0.5
     use_rrf: bool = True
@@ -81,7 +81,7 @@ class HybridRAG:
         """Embedding modell betöltése (lazy loading)."""
         if self.embedding_model is None:
             logger.info(f"Embedding modell betöltése: {self.config.embedding_model}")
-            self.embedding_model = SentenceTransformer(self.config.embedding_model)
+            self.embedding_model = SentenceTransformer(self.config.embedding_model, device='cpu')
         return self.embedding_model
 
     def load_documents(self) -> List[Document]:
@@ -317,7 +317,7 @@ if __name__ == "__main__":
     rag = create_hybrid_rag()
     rag.initialize()
 
-    query = "Mennyi a minimálbér 2024-ben?"
+    query = "Mennyi a minimálbér 2026-ben?"
     print(f"Kérdés: {query}")
 
     import time

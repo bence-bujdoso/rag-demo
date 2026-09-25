@@ -29,7 +29,7 @@ def generate_test_queries(count: int = 50) -> list:
     """Generál teszt kérdéseket a különböző kategóriákból."""
     queries = [
         "Mennyi a munkaszerződés próbaideje?",
-        "Mi a minimálbér 2024-ben?",
+        "Mi a minimálbér 2026-ben?",
         "Hány napos szabadság jogos a munkavállalónak?",
         "Mennyi az ÁFA Magyarországon?",
         "Mi a személyi jövedelemadó mértéke?",

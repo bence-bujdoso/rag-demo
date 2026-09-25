@@ -9,6 +9,7 @@ import hashlib
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from agent import run_agent
+from tests.evaluation import EVALUATION_QUESTIONS
 
 def _get_data_folder_hash(data_dir: str) -> str:
     """Számít sha256 hash-t a data mappa összes .txt fájljából (név + méret + mtime)."""
@@ -59,10 +60,23 @@ if "nodes" not in st.session_state:
     st.session_state.nodes = [
         {"id": 0, "name": "Vezérlés", "status": "idle", "desc": "Kérdés fogadása, szövegfeldolgozás", "elapsed": 0.0},
         {"id": 1, "name": "Döntés", "status": "idle", "desc": "Intent értékelése, útvonal döntés", "elapsed": 0.0},
-        {"id": 2, "name": "RAG Keresés", "status": "idle", "desc": "TF-IDF index, vektorkeresés, relevancia", "elapsed": 0.0},
-        {"id": 3, "name": "Eszköz", "status": "idle", "desc": "Számítás, dátum, egyszerű logikai műveletek", "elapsed": 0.0},
-        {"id": 4, "name": "Generálás", "status": "idle", "desc": "GLM4 válasz generálás, stream", "elapsed": 0.0},
+        {"id": 2, "name": "TF-IDF Keresés", "status": "idle", "desc": "Szöveg TF-IDF vektorizálása és hasonlóság-számítás", "elapsed": 0.0},
+        {"id": 3, "name": "Vektoros Keresés", "status": "idle", "desc": "Betöltött kérdés vektorizálása, FAISS keresés", "elapsed": 0.0},
+        {"id": 4, "name": "Fúzió", "status": "idle", "desc": "RRF vagy súlyozott kombinálás (alpha)", "elapsed": 0.0},
+        {"id": 5, "name": "Kontextus Összeállítás", "status": "idle", "desc": "Top dokumentumok szövegének összefűzése", "elapsed": 0.0},
+        {"id": 6, "name": "Eszköz", "status": "idle", "desc": "Számítás, dátum, egyszerű logikai műveletek", "elapsed": 0.0},
+        {"id": 7, "name": "Generálás", "status": "idle", "desc": "GLM4 válasz generálás, stream", "elapsed": 0.0},
     ]
+if "test_mode" not in st.session_state:
+    st.session_state.test_mode = None
+if "test_running" not in st.session_state:
+    st.session_state.test_running = False
+if "test_results" not in st.session_state:
+    st.session_state.test_results = None
+if "test_progress" not in st.session_state:
+    st.session_state.test_progress = ""
+if "test_logs" not in st.session_state:
+    st.session_state.test_logs = []
 if "pending_query" not in st.session_state:
     st.session_state.pending_query = ""
 if "current_node" not in st.session_state:
@@ -264,6 +278,25 @@ for i, (label, query) in enumerate(quick_questions):
             st.rerun()
 st.html('</div>')
 
+# Test buttons
+st.html('<div class="test-bar">')
+tcol1, tcol2 = st.columns(2)
+with tcol1:
+    if st.button("Funkcionális Értékelés", key="func_test", use_container_width=True):
+        st.session_state.test_mode = 'functional'
+        st.session_state.test_running = True
+        st.session_state.test_progress = "Starting functional test..."
+        st.session_state.test_logs = []
+        st.rerun()
+with tcol2:
+    if st.button("Teljesítményteszt", key="load_test", use_container_width=True):
+        st.session_state.test_mode = 'load'
+        st.session_state.test_running = True
+        st.session_state.test_progress = "Starting load test..."
+        st.session_state.test_logs = []
+        st.rerun()
+st.html('</div>')
+
 # Main content
 left_col, right_col = st.columns([3, 2], gap="large")
 
@@ -284,14 +317,15 @@ with left_col:
             <div class="msg-avatar {avatar_cls}">{icon}</div>
             <div class="msg-bubble {bubble_cls}">{safe_text}</div>
         </div>'''
-    chat_html += '</div></div>'
+        chat_html += '</div></div>'
+        chat_html += '<script>var chat = window.parent.document.querySelector(\".chat-messages\"); if (chat) { chat.scrollTop = chat.scrollHeight; }</script>'
     st.html(chat_html)
 
     with st.container():
         col_input, col_send = st.columns([5, 1])
         with col_input:
             user_query = st.text_input(
-                "",
+                " ",
                 placeholder="Írjon egy kérdést...",
                 key="chat_input",
                 disabled=st.session_state.running,
@@ -310,6 +344,17 @@ with left_col:
 
 # Right: Pipeline nodes + timing
 with right_col:
+
+    # Test Progress
+    if st.session_state.test_running:
+        st.html('<div class="section-title">🧪 Teszt Folyamatban</div>')
+        st.html(f'<p>{st.session_state.test_progress}</p>')
+        if st.session_state.test_logs:
+            st.html('<p>Legutolsó lépések:</p>')
+            st.html('<ul>')
+            for log in st.session_state.test_logs[-5:]:
+                st.html(f'<li>{log}</li>')
+            st.html('</ul>')
     st.html('<div class="section-title">🔄 Pipeline Nódok</div>')
     nodes_html = '<div class="pipeline-nodes">'
     for i, n in enumerate(st.session_state.nodes):
@@ -374,6 +419,22 @@ with right_col:
         </div>
         """)
 
+
+    # Test Results
+    if st.session_state.test_results:
+        st.html('<div class="section-title">🧪 Teszt Eredmények</div>')
+        res = st.session_state.test_results
+        st.html(f"<p><strong>Típus:</strong> {res['mode']}</p>")
+        st.html(f"<p><strong>Összes lekérdezés:</strong> {res['total_queries']}</p>")
+        st.html(f"<p><strong>Átlagos latency:</strong> {res['avg_latency']:.2f} másodperc</p>")
+        st.html(f"<p><strong>Minimum latency:</strong> {res['min_latency']:.2f} másodperc</p>")
+        st.html(f"<p><strong>Maximum latency:</strong> {res['max_latency']:.2f} másodperc</p>")
+        st.html(f"<p><strong>Fő szűk keresztmetszet:</strong> {res['bottleneck_node']} ({res['bottleneck_time']:.2f} másodperc)</p>")
+        st.html('<p><strong>Átlagos nœd-idők:</strong></p>')
+        st.html('<ul>')
+        for name, timing in res['avg_node_timings'].items():
+            st.html(f'<li>{name}: {timing:.2f} másodperc</li>')
+        st.html('</ul>')
     # Retrieved Documents
     if st.session_state.get("retrieved_docs"):
         st.html('<div class="section-title">📄 Retrievált Dokumentumok</div>')
@@ -423,11 +484,92 @@ if st.session_state.pending_query:
         st.session_state.actual_node_timings = {}
         st.rerun()
 
-if st.session_state.running:
+elif st.session_state.test_running:
+    # We are in the middle of a test.
+    # We'll check if we have already started the test (we store the current index in session state)
+    if 'test_current_idx' not in st.session_state:
+        # Initialize test
+        st.session_state.test_current_idx = 0
+        st.session_state.test_latencies = []
+        st.session_state.test_node_timings = []  # list of lists of timings per query
+        # Load questions
+        if st.session_state.test_mode == 'functional':
+            questions = EVALUATION_QUESTIONS
+            st.session_state.test_total = len(questions)
+        else:  # load test
+            # For load test, we'll use the same questions but repeat them to get 50-200
+            # Let's say we want 100 queries.
+            base_questions = EVALUATION_QUESTIONS
+            repeats = (100 + len(base_questions) - 1) // len(base_questions)
+            questions = base_questions * repeats
+            st.session_state.test_total = 100  # we'll only take first 100
+            questions = questions[:100]
+        # Store questions in session state for later use
+        st.session_state.test_questions = questions
+        st.session_state.test_progress = "Starting functional test..." if st.session_state.test_mode == 'functional' else "Starting load test..."
+        st.session_state.test_logs = []
+
+    idx = st.session_state.test_current_idx
+    if idx < st.session_state.test_total:
+        # Process one query
+        questions = st.session_state.test_questions
+        q = questions[idx]
+        question_text = q['question'] if isinstance(q, dict) else q
+        st.session_state.test_progress = f'Processing query {idx+1}/{st.session_state.test_total}'
+        st.session_state.test_logs.append(f'Query {idx+1}: {question_text[:50]}...')
+        start = time.time()
+        result = run_agent(question_text, rag=st.session_state.rag)
+        end = time.time()
+        latency = end - start
+        st.session_state.test_latencies.append(latency)
+        st.session_state.test_node_timings.append(result.get('node_timings', []))
+        st.session_state.test_current_idx = idx + 1
+        st.rerun()
+    else:
+        # Test is done
+        st.session_state.test_running = False
+        # Compute results
+        latencies = st.session_state.test_latencies
+        avg_latency = sum(latencies) / len(latencies) if latencies else 0
+        min_latency = min(latencies) if latencies else 0
+        max_latency = max(latencies) if latencies else 0
+        # Compute average timings per node
+        node_timings_all = st.session_state.test_node_timings
+        # Initialize a dict for each node: list of durations
+        node_durations = {n['name']: [] for n in st.session_state.nodes}
+        for timings in node_timings_all:
+            for t in timings:
+                name = t.get('node_name')
+                if name in node_durations:
+                    node_durations[name].append(t.get('duration_seconds', 0))
+        avg_node_timings = {}
+        for name, durations in node_durations.items():
+            if durations:
+                avg_node_timings[name] = sum(durations) / len(durations)
+            else:
+                avg_node_timings[name] = 0
+        # Identify bottleneck: the node with the highest average time
+        bottleneck_node = max(avg_node_timings, key=avg_node_timings.get) if avg_node_timings else None
+        bottleneck_time = avg_node_timings.get(bottleneck_node, 0) if bottleneck_node else 0
+
+        st.session_state.test_results = {
+            'mode': st.session_state.test_mode,
+            'total_queries': st.session_state.test_total,
+            'avg_latency': avg_latency,
+            'min_latency': min_latency,
+            'max_latency': max_latency,
+            'avg_node_timings': avg_node_timings,
+            'bottleneck_node': bottleneck_node,
+            'bottleneck_time': bottleneck_time,
+            'latencies': latencies,  # maybe we don't need to store all
+        }
+        st.rerun()
+
+elif st.session_state.running:
     current = st.session_state.current_node
     nodes = st.session_state.nodes
     total = len(nodes)
-    
+
     if current < total:
         # Update elapsed time for running node
         if current < len(nodes):
@@ -436,7 +578,7 @@ if st.session_state.running:
             else:
                 elapsed = time.time() - st.session_state.actual_node_timings[current]
                 nodes[current]["elapsed"] = max(nodes[current].get("elapsed", 0.0), elapsed)
-        
+
         # Update node statuses
         for i, n in enumerate(nodes):
             if i == current:
@@ -445,7 +587,7 @@ if st.session_state.running:
                 n["status"] = "completed"
             else:
                 n["status"] = "idle"
-        
+
         st.session_state.current_node = current + 1
         st.rerun()
     else:
@@ -457,14 +599,14 @@ if st.session_state.running:
                 else "Mennyi a munkaszerződés próbaideje?",
                 rag=st.session_state.rag
             )
-            
+
             answer = result.get("answer", "N/A")
             st.session_state.messages.append({"role": "bot", "text": answer})
             st.session_state.result = answer
             st.session_state.node_timings = result.get("node_timings", [])
             st.session_state.retrieved_docs = result.get("retrieved_docs", [])
             st.session_state.prompt = result.get("prompt", "")
-            
+
             # Update node elapsed times with actual timings from result
             if st.session_state.node_timings:
                 for t in st.session_state.node_timings:
@@ -474,7 +616,7 @@ if st.session_state.running:
                         idx = get_node_index_by_name(name)
                         if idx >= 0 and idx < len(st.session_state.nodes):
                             st.session_state.nodes[idx]["elapsed"] = dur
-            
+
             # Identify bottleneck
             bottleneck_nodes = ["Vezérlés", "Döntés", "RAG Keresés", "Eszköz"]
             bottleneck = ""
@@ -485,11 +627,11 @@ if st.session_state.running:
                         max_dur = t.get("duration_seconds", 0)
                         bottleneck = t.get("node_name", "")
             st.session_state.bottleneck = bottleneck
-            
+
             # Mark all nodes as completed
             for n in nodes:
                 n["status"] = "completed"
-            
+
             st.session_state.running = False
             st.session_state.current_node = -1
             st.rerun()
@@ -500,3 +642,7 @@ if st.session_state.running:
             st.session_state.running = False
             st.session_state.current_node = -1
             st.rerun()
+
+else:
+    # Idle state - do nothing
+    pass

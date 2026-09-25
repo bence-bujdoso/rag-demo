@@ -608,7 +608,7 @@ def run_agent(query: str, config: Optional[AgentConfig] = None, rag: Optional[An
 
 
 if __name__ == "__main__":
-    result = run_agent("Mennyi a minimálbér 2024-ben?")
+    result = run_agent("Mennyi a minimálbér 2026-ben?")
     print(f"Válasz: {result['answer'][:200]}...")
     print("\nNód idők:")
     for t in result.get("node_timings", []):

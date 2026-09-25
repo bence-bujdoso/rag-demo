@@ -63,7 +63,7 @@ Forrás: NAV, WTS Klient, TaxHungary, TaxRavens (frissítve: 2026. május)
    - Egyéves negatív lista-eltávolítás kérelme (munkáltatói kötelezettség esetén)
 
 9. ÚJ 114. SZAKASZ – HIVATALOS ÖSSZEÍRÓ STRUKTÚRÁK
-   - A Vagyonkezelősi Szabályozásról szóló 2024. évi T/387. törvényerejű rendelet
+   - A Vagyonkezelősi Szabályozásról szóló 2026. évi T/387. törvényerejű rendelet
    - Kötelező NAV ellenőrzés a bizalmi vagyonkezelők és magánalapítványok esetében
    - Hatályba lépés: 2026. augusztus 31.
    - Phasing:
