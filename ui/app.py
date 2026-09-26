@@ -464,9 +464,9 @@ with right_col:
     if completed_nodes >= 7:
         st.html('<div class="section-title">📄 Retrievált Dokumentumok</div>')
         docs = st.session_state.retrieved_docs
+        docs_html = ""
         if docs:
             st.html(f"<span style='font-size:0.75rem; color:#6b7280;'>{len(docs)} dokumentumot használtunk fel a válaszhoz.</span>")
-            docs_html = ""
             for i, doc in enumerate(docs):
                 if isinstance(doc, dict):
                     source = doc.get("source", "ismeretlen")
