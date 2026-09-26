@@ -50,6 +50,8 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 if "running" not in st.session_state:
     st.session_state.running = False
+    total_time = time.time() - st.session_state.start_time
+    st.session_state.total_time = total_time
 if "result" not in st.session_state:
     st.session_state.result = ""
 if "node_timings" not in st.session_state:
@@ -232,7 +234,7 @@ html, body { background:#ffffff; color:#171717; font-family:'Inter',system-ui,sa
 .node-status { display: inline-flex; align-items: center; gap: 0.25rem; font-size:0.6rem; padding:0.1rem 0.3rem; border-radius:6px; font-weight:500; }
 .status-idle { background:rgba(107,114,128,0.08); color:#6b7280; }
 .status-running { background:rgba(59,130,246,0.12); color:#3b82f6; }
-.status-done { background:rgba(99,102,241,0.12); color:#6366f1; }
+.status-done { background: rgba(76, 175, 80, 0.12);  /* green */ color:#6366f1; }
 .node-name { font-weight:600; font-size:0.75rem; color:#111827; margin-bottom:0.25rem; }
 .node-desc { font-size:0.65rem; color:#6b7280; }
 
@@ -254,6 +256,11 @@ header {visibility: hidden;}
     font-size: 0.8rem !important;
     height: auto !important;
 }
+    .node-elapsed {
+        font-size: 0.7rem;
+        color: #6b7280;
+        margin-top: 2px;
+    }
 """
 
 
@@ -292,8 +299,8 @@ with left_col:
             <div class="msg-avatar {avatar_cls}">{icon}</div>
             <div class="msg-bubble {bubble_cls}">{safe_text}</div>
         </div>'''
-        chat_html += '</div></div>'
-        chat_html += '<script>var chat = window.parent.document.querySelector(\".chat-messages\"); if (chat) { chat.scrollTop = chat.scrollHeight; }</script>'
+    chat_html += '</div></div>'
+    chat_html += '<script>var chat = window.parent.document.querySelector(\".chat-messages\"); if (chat) { chat.scrollTop = chat.scrollHeight; }</script>'
     st.html(chat_html)
 
     with st.container():
@@ -394,12 +401,19 @@ with right_col:
         nodes_html += f'''
         <div class="node-card">
             <div class="node-name">{i+1}. {n["name"]}{elapsed_display}</div>
-            <div class="node-desc">{n["desc"]}</div>
+            <div class="node-desc">{n["desc"]}</div>\n                    <div class="node-elapsed">{elapsed:.2f}s</div>
             {ops_html}
             <div class="node-status {status_cls}">{status_text}</div>
         </div>'''
     nodes_html += '</div>'
     st.html(nodes_html)
+    # Prompt (GLM4-hez küldve)
+    if st.session_state.get("prompt"):
+        st.html('<div class="section-title">📤 Prompt (GLM4-hez)</div>')
+        with st.expander("Mutasd a teljes promptot", expanded=False):
+            st.code(st.session_state.prompt, language="text", line_numbers=True)
+            st.html(f"<p><strong>Időtartam:</strong> {st.session_state.total_time:.2f} másodperc</p>")
+
 
     # Timing display
     if st.session_state.node_timings:
@@ -469,18 +483,13 @@ with right_col:
             """
         st.html(docs_html)
 
-    # Prompt (GLM4-hez küldve)
-    if st.session_state.get("prompt"):
-        st.html('<div class="section-title">📤 Prompt (GLM4-hez)</div>')
-        with st.expander("Mutasd a teljes promptot", expanded=False):
-            st.code(st.session_state.prompt, language="text", line_numbers=True)
-
 # Query processing logic
 if st.session_state.pending_query:
     q = st.session_state.pending_query.strip()
     if q:
         st.session_state.messages.append({"role": "user", "text": q})
         st.session_state.running = True
+        st.session_state.start_time = time.time()
         st.session_state.current_node = 0
         st.session_state.nodes[0]["status"] = "running"
         st.session_state.nodes[0]["elapsed"] = 0.0
@@ -641,6 +650,8 @@ elif st.session_state.running:
                 n["status"] = "completed"
 
             st.session_state.running = False
+            total_time = time.time() - st.session_state.start_time
+            st.session_state.total_time = total_time
             st.session_state.current_node = -1
             st.rerun()
         except Exception as e:
@@ -648,6 +659,8 @@ elif st.session_state.running:
             for n in nodes:
                 n["status"] = "completed"
             st.session_state.running = False
+            total_time = time.time() - st.session_state.start_time
+            st.session_state.total_time = total_time
             st.session_state.current_node = -1
             st.rerun()
 
