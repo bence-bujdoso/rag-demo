@@ -50,14 +50,16 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 if "running" not in st.session_state:
     st.session_state.running = False
-    total_time = time.time() - st.session_state.start_time
-    st.session_state.total_time = total_time
 if "result" not in st.session_state:
     st.session_state.result = ""
 if "node_timings" not in st.session_state:
     st.session_state.node_timings = []
 if "bottleneck" not in st.session_state:
     st.session_state.bottleneck = ""
+    if "start_time" not in st.session_state:
+        st.session_state.start_time = 0.0
+    if "total_time" not in st.session_state:
+        st.session_state.total_time = 0.0
 if "nodes" not in st.session_state:
     st.session_state.nodes = [
         {"id": 0, "name": "Vezérlés", "status": "idle", "desc": "Kérdés fogadása, szövegfeldolgozás", "elapsed": 0.0},
@@ -490,6 +492,8 @@ if st.session_state.pending_query:
         st.session_state.messages.append({"role": "user", "text": q})
         st.session_state.running = True
         st.session_state.start_time = time.time()
+        st.session_state.start_time = time.time()
+        st.session_state.start_time = time.time()
         st.session_state.current_node = 0
         st.session_state.nodes[0]["status"] = "running"
         st.session_state.nodes[0]["elapsed"] = 0.0
@@ -650,6 +654,8 @@ elif st.session_state.running:
                 n["status"] = "completed"
 
             st.session_state.running = False
+            total_time = time.time() - st.session_state.start_time
+            st.session_state.total_time = total_time
             total_time = time.time() - st.session_state.start_time
             st.session_state.total_time = total_time
             st.session_state.current_node = -1
