@@ -466,24 +466,24 @@ with right_col:
         docs = st.session_state.retrieved_docs
         if docs:
             st.html(f"<span style='font-size:0.75rem; color:#6b7280;'>{len(docs)} dokumentumot használtunk fel a válaszhoz.</span>")
-        docs_html = ""
-        for i, doc in enumerate(docs):
-            if isinstance(doc, dict):
-                source = doc.get("source", "ismeretlen")
-                content = doc.get("content", doc.get("page_content", ""))
-                score = doc.get("score", None)
-                score_str = f" | Szim.: {score:.3f}" if score is not None else ""
-            else:
-                source = "ismeretlen"
-                content = doc
-                score_str = ""
-            doc_preview = content[:250] + "..." if len(content) > 250 else content
-            docs_html += f"""
-            <div class="retrieved-doc">
-            <div class="retrieved-doc-head"><span>Dokumentum {i+1}</span><span>{source}{score_str}</span></div>
-            <div class="retrieved-doc-content">{doc_preview}</div>
-            </div>
-            """
+            docs_html = ""
+            for i, doc in enumerate(docs):
+                if isinstance(doc, dict):
+                    source = doc.get("source", "ismeretlen")
+                    content = doc.get("content", doc.get("page_content", ""))
+                    score = doc.get("score", None)
+                    score_str = f" | Szim.: {score:.3f}" if score is not None else ""
+                else:
+                    source = "ismeretlen"
+                    content = doc
+                    score_str = ""
+                doc_preview = content[:250] + "..." if len(content) > 250 else content
+                docs_html += f"""
+                <div class="retrieved-doc">
+                <div class="retrieved-doc-head"><span>Dokumentum {i+1}</span><span>{source}{score_str}</span></div>
+                <div class="retrieved-doc-content">{doc_preview}</div>
+                </div>
+                """
         st.html(docs_html)
 
 # Query processing logic
