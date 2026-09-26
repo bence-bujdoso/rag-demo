@@ -411,10 +411,10 @@ with right_col:
     st.html(nodes_html)
     # Prompt (GLM4-hez küldve)
     if st.session_state.get("prompt"):
-        st.html('<div class="section-title">📤 Prompt (GLM4-hez)</div>')
+        st.html('<div class=\"section-title\">📤 Prompt (GLM4-hez)</div>')
+        st.html(f"<p><strong>Időtartam:</strong> {st.session_state.total_time:.2f} másodperc</p>")
         with st.expander("Mutasd a teljes promptot", expanded=False):
             st.code(st.session_state.prompt, language="text", line_numbers=True)
-            st.html(f"<p><strong>Időtartam:</strong> {st.session_state.total_time:.2f} másodperc</p>")
 
 
     # Timing display
