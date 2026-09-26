@@ -460,7 +460,8 @@ with right_col:
             st.html(f'<li>{name}: {timing:.2f} másodperc</li>')
         st.html('</ul>')
     # Retrieved Documents
-    if st.session_state.get("retrieved_docs"):
+    completed_nodes = sum(1 for n in st.session_state.nodes if n.get("status") == "completed")
+    if completed_nodes >= 7:
         st.html('<div class="section-title">📄 Retrievált Dokumentumok</div>')
         docs = st.session_state.retrieved_docs
         if docs:
