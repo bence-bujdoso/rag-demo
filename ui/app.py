@@ -247,6 +247,13 @@ html, body { background:#ffffff; color:#171717; font-family:'Inter',system-ui,sa
 footer {visibility: hidden;}
 header {visibility: hidden;}
 .block-container { padding-top: 1.5rem; padding-bottom: 1rem; max-width: 100%; }
+
+/* Small operation buttons */
+.op-bar .stButton>button {
+    padding: 0.2rem 0.5rem !important;
+    font-size: 0.8rem !important;
+    height: auto !important;
+}
 """
 
 
@@ -262,40 +269,8 @@ components.html("""<script>
 st.html("<h1 style='font-size:1.5rem; font-weight:700; margin-bottom:0.25rem;'>⚡ <span style='color:#6366f1'>Agentic RAG</span> Pipeline</h1>")
 
 # Quick questions
-st.html('<div class="quick-bar">')
-qcol1, qcol2, qcol3, qcol4, qcol5 = st.columns(5)
-quick_questions = [
-    ("🤔 Próbaidő?", "Mennyi a munkaszerződés próbaideje?"),
-    ("💰 Nettó fizetés?", "Mi a nettó fizetés bruttóból?"),
-    ("📅 Határidő?", "Mikor van munkaügyi bírósági határidő?"),
-    ("🏠 Lakbér?", "Mennyi a lakbér támogatás 2026-ban?"),
-    ("📊 Minimálbér?", "Mennyi a minimálbér 2026 szeptemberében?"),
-]
-for i, (label, query) in enumerate(quick_questions):
-    with [qcol1, qcol2, qcol3, qcol4, qcol5][i]:
-        if st.button(label, key=f"quick_{i}", use_container_width=True):
-            st.session_state.pending_query = query
-            st.rerun()
-st.html('</div>')
 
 # Test buttons
-st.html('<div class="test-bar">')
-tcol1, tcol2 = st.columns(2)
-with tcol1:
-    if st.button("Funkcionális Értékelés", key="func_test", use_container_width=True):
-        st.session_state.test_mode = 'functional'
-        st.session_state.test_running = True
-        st.session_state.test_progress = "Starting functional test..."
-        st.session_state.test_logs = []
-        st.rerun()
-with tcol2:
-    if st.button("Teljesítményteszt", key="load_test", use_container_width=True):
-        st.session_state.test_mode = 'load'
-        st.session_state.test_running = True
-        st.session_state.test_progress = "Starting load test..."
-        st.session_state.test_logs = []
-        st.rerun()
-st.html('</div>')
 
 # Main content
 left_col, right_col = st.columns([3, 2], gap="large")
@@ -344,6 +319,39 @@ with left_col:
 
 # Right: Pipeline nodes + timing
 with right_col:
+    st.html('<div class="section-title">🔧 Műveletek</div>')
+    st.html('<div class="op-bar">')
+    qcol1, qcol2, qcol3, qcol4, qcol5 = st.columns(5)
+    quick_questions = [
+        ("🤔 Próbaidő?", "Mennyi a munkaszerződés próbaideje?"),
+        ("💰 Nettó fizetés?", "Mi a nettó fizetés bruttóból?"),
+        ("📅 Határidő?", "Mikor van munkaügyi bírósági határidő?"),
+        ("🏠 Lakbér?", "Mennyi a lakbér támogatás 2026-ban?"),
+        ("📊 Minimálbér?", "Mennyi a minimálbér 2026 szeptemberében?"),
+    ]
+    for i, (label, query) in enumerate(quick_questions):
+        with [qcol1, qcol2, qcol3, qcol4, qcol5][i]:
+            if st.button(label, key=f"quick_{i}", use_container_width=True):
+                st.session_state.pending_query = query
+                st.rerun()
+
+    tcol1, tcol2 = st.columns(2)
+    with tcol1:
+        if st.button("Funkcionális Értékelés", key="func_test", use_container_width=True):
+            st.session_state.test_mode = 'functional'
+            st.session_state.test_running = True
+            st.session_state.test_progress = "Starting functional test..."
+            st.session_state.test_logs = []
+            st.rerun()
+    with tcol2:
+        if st.button("Teljesítményteszt", key="load_test", use_container_width=True):
+            st.session_state.test_mode = 'load'
+            st.session_state.test_running = True
+            st.session_state.test_progress = "Starting load test..."
+            st.session_state.test_logs = []
+            st.rerun()
+
+    st.html('</div>')
 
     # Test Progress
     if st.session_state.test_running:
