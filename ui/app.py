@@ -56,10 +56,12 @@ if "node_timings" not in st.session_state:
     st.session_state.node_timings = []
 if "bottleneck" not in st.session_state:
     st.session_state.bottleneck = ""
-    if "start_time" not in st.session_state:
-        st.session_state.start_time = 0.0
-    if "total_time" not in st.session_state:
-        st.session_state.total_time = 0.0
+if "bottleneck" not in st.session_state:
+    st.session_state.bottleneck = ""
+if "start_time" not in st.session_state:
+    st.session_state.start_time = 0.0
+if "total_time" not in st.session_state:
+    st.session_state.total_time = 0.0
 if "nodes" not in st.session_state:
     st.session_state.nodes = [
         {"id": 0, "name": "Vezérlés", "status": "idle", "desc": "Kérdés fogadása, szövegfeldolgozás", "elapsed": 0.0},
@@ -478,13 +480,8 @@ with right_col:
                     content = doc
                     score_str = ""
                 doc_preview = content[:250] + "..." if len(content) > 250 else content
-                docs_html += f"""
-                <div class="retrieved-doc">
-                <div class="retrieved-doc-head"><span>Dokumentum {i+1}</span><span>{source}{score_str}</span></div>
-                <div class="retrieved-doc-content">{doc_preview}</div>
-                </div>
-                """
-        st.html(docs_html)
+                if docs_html:
+                    st.html(docs_html)
 
 # Query processing logic
 if st.session_state.pending_query:
