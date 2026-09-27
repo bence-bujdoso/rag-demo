@@ -461,28 +461,32 @@ with right_col:
         for name, timing in res['avg_node_timings'].items():
             st.html(f'<li>{name}: {timing:.2f} másodperc</li>')
         st.html('</ul>')
-    # Retrieved Documents
+# Retrieved Documents
     completed_nodes = sum(1 for n in st.session_state.nodes if n.get("status") == "completed")
     if completed_nodes >= 7:
-        st.html('<div class="section-title">📄 Retrievált Dokumentumok</div>')
+        st.html('<div class=\"section-title\">📄 Retrievált Dokumentumok</div>')
         docs = st.session_state.retrieved_docs
-        docs_html = ""
         if docs:
             st.html(f"<span style='font-size:0.75rem; color:#6b7280;'>{len(docs)} dokumentumot használtunk fel a válaszhoz.</span>")
-            for i, doc in enumerate(docs):
-                if isinstance(doc, dict):
-                    source = doc.get("source", "ismeretlen")
-                    content = doc.get("content", doc.get("page_content", ""))
-                    score = doc.get("score", None)
-                    score_str = f" | Szim.: {score:.3f}" if score is not None else ""
-                else:
-                    source = "ismeretlen"
-                    content = doc
-                    score_str = ""
-                doc_preview = content[:250] + "..." if len(content) > 250 else content
-                if docs_html:
-                    st.html(docs_html)
-
+        docs_html = ""
+        for i, doc in enumerate(docs):
+            if isinstance(doc, dict):
+                source = doc.get("source", "ismeretlen")
+                content = doc.get("content", doc.get("page_content", ""))
+                score = doc.get("score", None)
+                score_str = f" | Szim.: {score:.3f}" if score is not None else ""
+            else:
+                source = "ismeretlen"
+                content = doc
+                score_str = ""
+            doc_preview = content[:250] + "..." if len(content) > 250 else content
+            docs_html += f"""
+            <div class="retrieved-doc">
+            <div class="retrieved-doc-head"><span>Dokumentum {i+1}</span><span>{source}{score_str}</span></div>
+            <div class="retrieved-doc-content">{doc_preview}</div>
+            </div>
+            """
+        st.html(docs_html)
 # Query processing logic
 if st.session_state.pending_query:
     q = st.session_state.pending_query.strip()
