@@ -495,6 +495,10 @@ def run_agent(query: str, config: Optional[AgentConfig] = None, rag: Optional[An
             stats_text = "Hiba a kérés során."
         t3 = finish_timing(t3, f"{len(retrieved_docs)} dokumentum", ["TF-IDF index", "Dense vektor index", "RRF fusion", "Relevancia kiszámítás", "Dokumentum kiválasztás"])
         node_timings.append(t3)
+        # Store document count in session state for early UI display
+        st.session_state.retrieved_doc_count = len(retrieved_docs)
+        if not st.session_state.get("retrieved_docs_data"):
+            st.session_state.retrieved_docs_data = retrieved_docs_data
     
         t4 = track_time("Eszköz", "Közprendszer", ["Számítás", "Dátum kalkuláció", "Egyszerű logikai műveletek"])
         t4 = finish_timing(t4, "Nincs szükség", ["Számítás", "Dátum kalkuláció", "Egyszerű logikai műveletek"])

@@ -1,35 +1,43 @@
 {
   "metadata": {
-    "num_queries": 1,
-    "start_time": "2026-09-24T14:12:51.138819",
+    "num_queries": 5,
+    "start_time": "2026-09-28T16:33:11.995640",
     "queries": [
-      "Mennyi a munkaszerződés próbaideje?"
+      "Mennyi a munkaszerződés próbaideje?",
+      "Mi a minimálbér 2026-ben?",
+      "Hány napos szabadság jogos a munkavállalónak?",
+      "Mennyi az ÁFA Magyarországon?",
+      "Mi a személyi jövedelemadó mértéke?"
     ]
   },
   "latencies": [
-    13.352507999981754
+    24.03111081098905,
+    18.79657110502012,
+    29.050637314037886,
+    22.278173159982543,
+    38.93720730498899
   ],
-  "successes": 1,
+  "successes": 5,
   "errors": 0,
   "error_details": [],
   "route_distribution": {
-    "rag": 1,
+    "rag": 5,
     "tool": 0,
     "direct": 0,
     "error": 0
   },
   "stats": {
-    "count": 1,
-    "avg_latency": 13.352507999981754,
-    "median_latency": 13.352507999981754,
-    "min_latency": 13.352507999981754,
-    "max_latency": 13.352507999981754,
-    "std_latency": 0,
-    "p95_latency": 13.352507999981754,
-    "p99_latency": 13.352507999981754
+    "count": 5,
+    "avg_latency": 26.618739939003717,
+    "median_latency": 24.03111081098905,
+    "min_latency": 18.79657110502012,
+    "max_latency": 38.93720730498899,
+    "std_latency": 7.816351975573046,
+    "p95_latency": 38.93720730498899,
+    "p99_latency": 38.93720730498899
   },
-  "end_time": "2026-09-24T14:13:04.491390",
-  "duration_seconds": 13.352577,
+  "end_time": "2026-09-28T16:35:25.089508",
+  "duration_seconds": 133.093876,
   "bottleneck_analysis": {
     "primary": "RAG túlzott használata",
     "severity": "medium",
@@ -39,6 +47,13 @@
     ]
   },
   "optimization_suggestions": [
+    {
+      "priority": "high",
+      "category": "LLM Performance",
+      "suggestion": "Használjunk egy kisebb, gyorsabb modellt az Ollama-ban",
+      "details": "A glm4:9b (9.4B parameter) lassú CPU-n. Alternatíva: qwen3vl-8b vagy még kisebb, 3-4B parameterű modell (pl. 'tinyllama', 'phi-2'). A csere jelentős latency-csökkentést eredményezhet (30s -> 8-12s).",
+      "expected_improvement": "50-70% latency reduction"
+    },
     {
       "priority": "medium",
       "category": "RAG Optimization",

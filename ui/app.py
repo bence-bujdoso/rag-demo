@@ -462,32 +462,56 @@ with right_col:
             st.html(f'<li>{name}: {timing:.2f} másodperc</li>')
         st.html('</ul>')
 # Retrieved Documents
-    completed_nodes = sum(1 for n in st.session_state.nodes if n.get("status") == "completed")
-    if completed_nodes >= 7:
-        st.html('<div class=\"section-title\">📄 Retrievált Dokumentumok</div>')
-        docs = st.session_state.retrieved_docs
-        if docs:
-            st.html(f"<span style='font-size:0.75rem; color:#6b7280;'>{len(docs)} dokumentumot használtunk fel a válaszhoz.</span>")
-        docs_html = ""
-        for i, doc in enumerate(docs):
-            if isinstance(doc, dict):
-                source = doc.get("source", "ismeretlen")
-                content = doc.get("content", doc.get("page_content", ""))
-                score = doc.get("score", None)
-                score_str = f" | Szim.: {score:.3f}" if score is not None else ""
+    # Show document count early if available from RAG search
+    if st.session_state.get("retrieved_doc_count") is not None:
+        st.html(f"<div class='section-title'>📄 Retrievált Dokumentumok</div>")
+        st.html(f"<span style='font-size:0.75rem; color:#6b7280;'>{st.session_state.retrieved_doc_count} dokumentumot használtunk fel a válaszhoz.</span>")
+        
+        # Also show full details if we have completed the RAG processing (nodes 2-5)
+        completed_rag_nodes = sum(1 for i in [2, 3, 4, 5] if i < len(st.session_state.nodes) and st.session_state.nodes[i].get("status") == "completed")
+        if completed_rag_nodes >= 4:  # TF-IDF, Vector, Fusion, Context nodes completed
+            docs = st.session_state.retrieved_docs
+            if docs:
+                docs_html = ""
+                for i, doc in enumerate(docs):
+                    if isinstance(doc, dict):
+                        source = doc.get("source", "ismeretlen")
+                        content = doc.get("content", doc.get("page_content", ""))
+                        score = doc.get("score", None)
+                        score_str = f" | Szim.: {score:.3f}" if score is not None else ""
+                    else:
+                        source = "ismeretlen"
+                        content = doc
+                        score_str = ""
+                    doc_preview = content[:250] + "..." if len(content) > 250 else content
+                    docs_html += f'\n<div class=\"retrieved-doc\">\n<div class=\"retrieved-doc-head\"><span>Dokumentum {i+1}</span><span>{source}{score_str}</span></div>\n<div class=\"retrieved-doc-content\">{doc_preview}</div>\n</div>\n'
+                st.html(docs_html)
             else:
-                source = "ismeretlen"
-                content = doc
-                score_str = ""
-            doc_preview = content[:250] + "..." if len(content) > 250 else content
-            docs_html += f"""
-            <div class="retrieved-doc">
-            <div class="retrieved-doc-head"><span>Dokumentum {i+1}</span><span>{source}{score_str}</span></div>
-            <div class="retrieved-doc-content">{doc_preview}</div>
-            </div>
-            """
-        st.html(docs_html)
-# Query processing logic
+                st.html("<span style='font-size:0.75rem; color:#6b7280;'>Nincs retrieved dokumentum.</span>")
+    else:
+        # Fallback to original logic if no early count available
+        completed_nodes = sum(1 for n in st.session_state.nodes if n.get("status") == "completed")
+        if completed_nodes >= 7:
+            st.html('<div class=\"section-title\">📄 Retrievált Dokumentumok</div>')
+            docs = st.session_state.retrieved_docs
+            st.html(f"<span style='font-size:0.75rem; color:#6b7280;'>{len(docs)} dokumentumot használtunk fel a válaszhoz.</span>")
+            if docs:
+                docs_html = ""
+                for i, doc in enumerate(docs):
+                    if isinstance(doc, dict):
+                        source = doc.get("source", "ismeretlen")
+                        content = doc.get("content", doc.get("page_content", ""))
+                        score = doc.get("score", None)
+                        score_str = f" | Szim.: {score:.3f}" if score is not None else ""
+                    else:
+                        source = "ismeretlen"
+                        content = doc
+                        score_str = ""
+                    doc_preview = content[:250] + "..." if len(content) > 250 else content
+                    docs_html += f'\n<div class=\"retrieved-doc\">\n<div class=\"retrieved-doc-head\"><span>Dokumentum {i+1}</span><span>{source}{score_str}</span></div>\n<div class=\"retrieved-doc-content\">{doc_preview}</div>\n</div>\n'
+                st.html(docs_html)
+            else:
+                st.html("<span style='font-size:0.75rem; color:#6b7280;'>Nincs retrieved dokumentum.</span>")
 if st.session_state.pending_query:
     q = st.session_state.pending_query.strip()
     if q:

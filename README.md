@@ -1,4 +1,4 @@
-# Agentic RAG Chatbot Prototípus
+# Agentic RAG Chatbot Prototípus..
 
 ## 📋 Projekt áttekintés
 
