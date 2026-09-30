@@ -214,25 +214,9 @@ Funkcionális értékelés:
 | Maximum latency | 56.38 másodperc | |
 | Fő szűk keresztmetszet | Generálás (22.79 másodperc) | |
 
-### Nœd-idők állapota
-
-| Nœd | Idő |
-|-----|-----|
-| Vezérlés | 0.00 másodperc |
-| Döntés | 0.00 másodperc |
-| TF-IDF Keresés | 0.00 másodperc |
-| Vektoros Keresés | 0.00 másodperc |
-| Fúzió | 0.00 másodperc |
-| Kontextus Összeállítás | 0.00 másodperc |
-| Eszköz | 0.00 másodperc |
-| Generálás | 22.79 másodperc |
-
-**Megjegyzés**: A nœd-idők 0.00-en átlagosan mérvényesen 0-ra kerekülnek. Ez akkor történik, ha a `duration_seconds` mező a `NodeTiming` struktúrában < 0.005 másodperc, ezért a `round(..., 3)` kerekít 0-ra.
-
 ### Bottleneck azonosítás
 
 - **Fő szűk keresztmetszet**: Az Ollama LLM válaszidő (glm4:9b ~22-25 másodperc CPU-n)
-- **Mutató**: A Generálás nœd felett van a legnagyobb szállítási idő, ami a LLM inferenciáját jelenti
 
 ### Alapvető latency metrikák (CPU-only futás)
 
@@ -298,6 +282,6 @@ Ez egy prototípus projekt. Nem tartalmaz szabadalmi jogokat.
 
 ---
 
-**Verzió**: 1.0.1  
-**Utolsó frissítés**: 2026. szeptember 25.  
+**Verzió**: 1.1.0  
+**Utolsó frissítés**: 2026. szeptember 30.  
 **Fejlesztő**: Bujdosó Bence
