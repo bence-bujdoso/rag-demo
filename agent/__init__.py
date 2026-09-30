@@ -21,6 +21,8 @@ from langchain_ollama import ChatOllama
 import time
 import json
 
+from constants import *
+
 from rag import RagSubgraph, RagConfig as RConfig
 from rag.scraper import init_scraper, check_updates, get_last_scrape_time
 
@@ -190,19 +192,6 @@ def tool_node(state: AgentState) -> dict:
             results["day_of_year"] = today.timetuple().tm_yday
         except Exception as e:
             results["current_time"] = str(e)
-    
-    if "fizetés" in query.lower() or "ber" in query.lower() or "bruttó" in query.lower():
-        try:
-            min_bruttó_havi = 266800
-            min_netto_havi = round(min_bruttó_havi * 0.815)
-            results["fizeteskalkulacio"] = {
-                "minimum_bruttó_havi": min_bruttó_havi,
-                "minimum_netto_havi": min_netto_havi,
-                "brutto_ora_40_ora": round(min_bruttó_havi / (21 * 8), 0),
-                "netto_ora_40_ora": round(min_netto_havi / (21 * 8), 0)
-            }
-        except Exception as e:
-            results["fizeteskalkulacio"] = str(e)
     
     results["tool_name"] = "fogyasztói_szamolopult"
     results["tool_result"] = f"Eszköz válasza a kérdésre: {query[:50]}..."
@@ -469,7 +458,10 @@ def run_agent(query: str, config: Optional[AgentConfig] = None, rag: Optional[An
             retrieved = rag.search(query)
             context = rag.get_context(retrieved)
             # Get retrieval stats for prompt
-            retrieval_stats = rag.get_retrieval_stats()
+            retrieval_stats = {}
+            for doc in retrieved:
+                source = doc.metadata.get('source', 'ismeretlen')
+                retrieval_stats[source] = retrieval_stats.get(source, 0) + 1
             retrieved_docs_data = []
             for doc in retrieved:
                 if hasattr(doc, 'page_content'):

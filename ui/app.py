@@ -32,12 +32,10 @@ def _init_rag_index():
     current_hash = _get_data_folder_hash(data_dir)
     
     if st.session_state.get("_rag_hash") != current_hash or "rag" not in st.session_state:
-        from rag import RagSubgraph, RagConfig
+        from rag import HybridRAG, HybridConfig
         try:
-            _rag = RagSubgraph(RagConfig())
-            _rag.load_documents()
-            _rag.split_documents()
-            _rag.build_index()
+            _rag = HybridRAG(HybridConfig())
+            _rag.initialize()
             st.session_state.rag = _rag
             st.session_state._rag_hash = current_hash
         except Exception:
@@ -55,8 +53,6 @@ if "result" not in st.session_state:
     st.session_state.result = ""
 if "node_timings" not in st.session_state:
     st.session_state.node_timings = []
-if "bottleneck" not in st.session_state:
-    st.session_state.bottleneck = ""
 if "bottleneck" not in st.session_state:
     st.session_state.bottleneck = ""
 if "start_time" not in st.session_state:
@@ -272,9 +268,9 @@ header {visibility: hidden;}
 # Inject CSS
 st.html(f"<style>{TEMPLATE}</style>")
 
-# Remove empty Streamlit widget labels from DOM and auto-scroll chat to bottom
+# Remove empty Streamlit widget labels from DOM
 components.html("""<script>
-(function(){var d=window.parent.document;function rm(){var l=d.querySelector('label[data-testid="stWidgetLabel"]');if(l&&!l.textContent.trim())l.remove();else setTimeout(rm,300)}rm();function scrollChat(){var chat=d.querySelector('.chat-messages');if(chat){chat.scrollTop=chat.scrollHeight;}setTimeout(scrollChat,500);}scrollChat();})();
+(function(){var d=window.parent.document;function rm(){var l=d.querySelector('label[data-testid="stWidgetLabel"]');if(l&&!l.textContent.trim())l.remove();else setTimeout(rm,300)}rm();
 </script>""", height=0, scrolling=False)
 
 # Header
@@ -465,8 +461,8 @@ with right_col:
 # Retrieved Documents
     # Show document count early if available from RAG search
     if st.session_state.get("retrieved_doc_count") is not None:
-        st.html(f"<div class='section-title'>📄 Retrievált Dokumentumok</div>")
-        st.html(f"<span style='font-size:0.75rem; color:#6b7280;'>{st.session_state.retrieved_doc_count} dokumentumot használtunk fel a válaszhoz.</span>")
+        st.html(f"""<div class='section-title' style='color:#111827; border-bottom:1px solid #e5e7eb; padding-bottom:0.25rem; margin-bottom:0.5rem;'>📄 Retrievált Dokumentumok</div>""")
+        st.html(f"""<span style='font-size:0.85rem; color:#6b7280;'>📊 {st.session_state.retrieved_doc_count} dokumentum a válaszhoz</span>""")
         
         # Also show full details if we have completed the RAG processing (nodes 2-5)
         completed_rag_nodes = sum(1 for i in [2, 3, 4, 5] if i < len(st.session_state.nodes) and st.session_state.nodes[i].get("status") == "completed")
@@ -485,17 +481,24 @@ with right_col:
                         content = doc
                         score_str = ""
                     doc_preview = content[:250] + "..." if len(content) > 250 else content
-                    docs_html += f'\n<div class=\"retrieved-doc\">\n<div class=\"retrieved-doc-head\"><span>Dokumentum {i+1}</span><span>{source}{score_str}</span></div>\n<div class=\"retrieved-doc-content\">{doc_preview}</div>\n</div>\n'
+                    docs_html += f'''
+<div style="background:#ffffff; border:1px solid #e5e7eb; border-radius:8px; padding:0.6rem; margin-bottom:0.5rem; font-size:0.75rem; box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem; font-weight:500;">
+<span style="color:#111827;">Dokumentum {i+1}</span>
+<span style="color:#6b7280; font-size:0.65rem;">{source}{score_str}</span>
+</div>
+<div style="color:#6b7280; white-space:pre-wrap; font-family:inherit; line-height:1.4; margin-top:0.1rem;">{doc_preview}</div>
+</div>'''
                 st.html(docs_html)
             else:
-                st.html("<span style='font-size:0.75rem; color:#6b7280;'>Nincs retrieved dokumentum.</span>")
+                st.html("""<span style='font-size:0.75rem; color:#6b7280;'>Nincs retrieved dokumentum.</span>""")
     else:
         # Fallback to original logic if no early count available
         completed_nodes = sum(1 for n in st.session_state.nodes if n.get("status") == "completed")
         if completed_nodes >= 7:
-            st.html('<div class=\"section-title\">📄 Retrievált Dokumentumok</div>')
+            st.html(f"""<div class='section-title' style='color:#111827; border-bottom:1px solid #e5e7eb; padding-bottom:0.25rem; margin-bottom:0.5rem;'>📄 Retrievált Dokumentumok</div>""")
             docs = st.session_state.retrieved_docs
-            st.html(f"<span style='font-size:0.75rem; color:#6b7280;'>{len(docs)} dokumentumot használtunk fel a válaszhoz.</span>")
+            st.html(f"""<span style='font-size:0.75rem; color:#6b7280;'>{len(docs)} dokumentumot használtunk fel a válaszhoz.</span>""")
             if docs:
                 docs_html = ""
                 for i, doc in enumerate(docs):
@@ -509,20 +512,23 @@ with right_col:
                         content = doc
                         score_str = ""
                     doc_preview = content[:250] + "..." if len(content) > 250 else content
-                    docs_html += f'\n<div class=\"retrieved-doc\">\n<div class=\"retrieved-doc-head\"><span>Dokumentum {i+1}</span><span>{source}{score_str}</span></div>\n<div class=\"retrieved-doc-content\">{doc_preview}</div>\n</div>\n'
+                    docs_html += f'''
+<div style="background:#ffffff; border:1px solid #e5e7eb; border-radius:8px; padding:0.6rem; margin-bottom:0.5rem; font-size:0.75rem; box-shadow:0 1px 2px rgba(0,0,0,0.03);">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.3rem; font-weight:500;">
+<span style="color:#111827;">Dokumentum {i+1}</span>
+<span style="color:#6b7280; font-size:0.65rem;">{source}{score_str}</span>
+</div>
+<div style="color:#6b7280; white-space:pre-wrap; font-family:inherit; line-height:1.4; margin-top:0.1rem;">{doc_preview}</div>
+</div>'''
                 st.html(docs_html)
             else:
-                st.html("<span style='font-size:0.75rem; color:#6b7280;'>Nincs retrieved dokumentum.</span>")
+                st.html("""<span style='font-size:0.75rem; color:#6b7280;'>Nincs retrieved dokumentum.</span>""")
 if st.session_state.pending_query:
     q = st.session_state.pending_query.strip()
     if q:
         st.session_state.messages.append({"role": "user", "text": q})
         st.session_state.running = True
         st.session_state.start_time = time.time()
-        st.session_state.start_time = time.time()
-        st.session_state.start_time = time.time()
-        st.session_state.current_node = 0
-        st.session_state.nodes[0]["status"] = "running"
         st.session_state.nodes[0]["elapsed"] = 0.0
         st.session_state.node_timings = []
         st.session_state.bottleneck = ""
@@ -682,8 +688,6 @@ elif st.session_state.running:
                 n["status"] = "completed"
 
             st.session_state.running = False
-            total_time = time.time() - st.session_state.start_time
-            st.session_state.total_time = total_time
             total_time = time.time() - st.session_state.start_time
             st.session_state.total_time = total_time
             st.session_state.current_node = -1
