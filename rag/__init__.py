@@ -190,7 +190,7 @@ class RagSubgraph:
                 source = f"tudástár/{filename}"
                 doc = Document(page_content=content, metadata={"source": source, "filename": filename})
                 self.documents.append(doc)
-        pass # print(f"[RAG] Betöltve {len(self.documents)} dokumentum.")
+
         return self.documents
 
     def split_documents(self, documents: Optional[List[Document]] = None) -> List[Document]:
@@ -202,7 +202,7 @@ class RagSubgraph:
             separators=["\n\n", "\n", ". ", " ", ""]
         )
         self.chunks = splitter.split_documents(docs)
-        pass # print(f"[RAG] Darabolva {len(self.chunks)} darabra.")
+
         return self.chunks
 
     def build_index(self, chunks: Optional[List[Document]] = None) -> TFIDFVectorizer:
@@ -211,7 +211,7 @@ class RagSubgraph:
             docs = self.split_documents()
         texts = [doc.page_content for doc in docs]
         self.vectorizer.fit(texts)
-        pass # print(f"[RAG] TF-IDF index kész: {len(self.vocabulary)} unikális szó, {len(self.document_vectors)} dokumentum.")
+
         return self.vectorizer
 
     @property
@@ -249,7 +249,7 @@ class RagSubgraph:
         for i, s in top_k:
             src = self.chunks[i].metadata.get("source", "unknown")
             self._source_scores[src] = self._source_scores.get(src, 0) + s
-        pass # print(f"[RAG] Keresett '{query}' -> {len(self.retrieved_docs)} eredmény.")
+
         return self.retrieved_docs
 
     def get_retrieval_stats(self) -> dict:
@@ -294,7 +294,7 @@ def run_rag_subgraph(query: str, config: Optional[RagConfig] = None) -> dict:
 
 
 if __name__ == "__main__":
-    pass # print("RAG Subgraph teszt...")
+
     result = run_rag_subgraph("Mennyi a minimálbér 2026-ben?")
-    pass # print(f"Kontextum: {result['context'][:300]}...")
-    pass # print("✅ RAG Subgraph teszt kész!")
+
+
