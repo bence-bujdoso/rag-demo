@@ -120,9 +120,9 @@ A RAG subgraph 5 node-ból áll:
 ### Opció 1: Docker-compose (ajánlott)
 
 ```bash
-# 1. Klónozd a repozitóriumot
+# 1. Klónozd a repo-t
 git clone <repo-url>
-cd RagDemo
+cd rag-demo
 
 # 2. Indítsd a rendszert
 docker-compose up -d --build
@@ -216,7 +216,7 @@ Funkcionális értékelés:
 
 ### Bottleneck azonosítás
 
-- **Fő szűk keresztmetszet**: Az Ollama LLM válaszidő (glm4:9b ~22-25 másodperc CPU-n)
+- **Fő szűk keresztmetszet**: Az Ollama LLM válaszidő (glm4:9b ~22-25 másodperc GPU-n)
 
 ### Alapvető latency metrikák (CPU-only futás)
 
