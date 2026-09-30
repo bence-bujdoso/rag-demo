@@ -6,6 +6,7 @@ import sys
 import os
 import time
 import hashlib
+import base64
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from agent import run_agent
@@ -652,6 +653,7 @@ elif st.session_state.running:
             st.session_state.result = answer
             st.session_state.node_timings = result.get("node_timings", [])
             st.session_state.retrieved_docs = result.get("retrieved_docs", [])
+            st.session_state.retrieved_doc_count = result.get("retrieved_docs_count", 0)
             st.session_state.prompt = result.get("prompt", "")
 
             # Update node elapsed times with actual timings from result
