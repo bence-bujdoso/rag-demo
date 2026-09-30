@@ -7,7 +7,7 @@ Ez egy **Agentic RAG (Retrieval-Augmented Generation) chatbot prototípus**, ame
 ## 🎯 Probléma és célkitűzés
 
 ### Probléma
-A magyar jogi rendszer complexity és a jogi információk elérése nehézkes a polgárok számára. A magyar jogi tájékoztató rendszer nem mindig elérhető vagy egyértelmű, és a jogi információk minősége változó.
+A magyar jogi rendszer komplexitása és a jogi információk elérése nehézkes a polgárok számára. A magyar jogi tájékoztató rendszer nem mindig elérhető vagy egyértelmű, és a jogi információk minősége változó.
 
 ### Célkitűzés
 Egy **moduláris, reprodukálható agentic RAG rendszer** létrehozása, amely:
