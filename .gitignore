@@ -1,0 +1,65 @@
+# Git ignore file
+# .gitignore
+
+# Virtual environment
+venv/
+.env
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info
+dist/
+build/
+.eggs/
+
+# Logs
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Omega
+.omega.yaml
+
+# Environment
+.env.local
+.env.production
+
+# Ignore everything else
+*
+!*.py
+!*.txt
+!*.md
+!*.yml
+!*.yaml
+!*.json
+!*.pyc
+!.gitignore
+!data/
+!tests/
+!ui/
+!rag/
+!agent/
+!Dockerfile
+!requirements.txt
+!docker-compose.yml
+!README.md
+!run.sh
+!.omega.yaml
+!.dockerignore
+!LICENSE
+.worktrees/
