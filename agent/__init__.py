@@ -524,7 +524,7 @@ def run_agent(query: str, config: Optional[AgentConfig] = None, rag: Optional[An
                 retrieved_docs_data.append({
                     "source": doc.metadata.get("source", "ismeretlen"),
                     "filename": doc.metadata.get("filename", ""),
-                    "content": doc.page_content[:200],
+                    "content": doc.page_content[:RAG_CHUNK_SIZE],  # Use configurable chunk size
                     "score": float(score) if score is not None else 0.0,
                 })
             retrieved_docs = retrieved_docs_data
