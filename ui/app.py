@@ -7,6 +7,8 @@ import os
 import time
 import hashlib
 import base64
+import plotly.graph_objects as go
+import plotly.express as px
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from agent import run_agent
@@ -523,6 +525,198 @@ with right_col:
                 st.html(docs_html)
             else:
                 st.html("""<span style='font-size:0.75rem; color:#6b7280;'>Nincs retrieved dokumentum.</span>""")
+
+# 2D RAG VISUALIZATION DASHBOARD
+st.html("<div class='section-title'>📊 2D RAG Vizualizáció</div>")
+
+# Create tabs for different visualization views
+viz_tabs = st.tabs(["📈 Pipeline Monitoring", "📄 Document Analysis", "⚡ Performance"])
+
+with viz_tabs[0]:  # Pipeline Monitoring
+    st.html("<div style='background:#f8fafc; padding:1rem; border-radius:8px; margin-bottom:1rem;'>")
+    # Real-time pipeline status
+    if st.session_state.get("node_timings"):
+        # Create a timeline chart using plotly
+        try:
+            import plotly.graph_objects as go
+            import pandas as pd
+            # Prepare data for pipeline timeline
+            pipeline_data = []
+            for i, node in enumerate(st.session_state.node_timings):
+                name = node["node_name"]
+                # Find timing for this node
+                timing = next((t["duration_seconds"] for t in st.session_state.node_timings if t.get("node_name") == name), 0)
+                pipeline_data.append({
+                    "Node": f"{i+1}. {name}",
+                    "Duration": timing,
+                    "Status": "Completed" if node.get("duration_seconds", 0) > 0 else "Pending",
+                    "Order": i
+                })
+            df = pd.DataFrame(pipeline_data)
+            # Create horizontal bar chart
+            fig = go.Figure()
+            for idx, row in df.iterrows():
+                color = "#6366f1" if row["Status"] == "Completed" else "#fbbf24" if row["Status"] == "Pending" else "#e5e7eb"
+                fig.add_trace(go.Bar(
+                    y=[row["Node"]],
+                    x=[row["Duration"]],
+                    orientation='h',
+                    marker_color=color,
+                    text=f"{row['Duration']:.2f}s",
+                    textposition='inside',
+                    showlegend=False
+                ))
+            fig.update_layout(
+                title="Pipeline Node Execution Times",
+                xaxis_title="Duration (seconds)",
+                yaxis_title="Pipeline Nodes",
+                height=300,
+                margin=dict(l=20, r=20, t=40, b=20)
+            )
+            st.plotly_chart(fig, use_container_width=True, key="pipeline_chart")
+        except ImportError:
+            st.warning("Plotly not available")
+            for i, node in enumerate(st.session_state.node_timings):
+                name = node["node_name"]
+                timing = next((t["duration_seconds"] for t in st.session_state.node_timings if t.get("node_name") == name), 0)
+                st.progress(min(timing, 1.0), text=f"{i+1}. {name}: {timing:.2f}s")
+    else:
+        st.info("Start a query to see pipeline visualization")
+    st.html("</div>")
+
+with viz_tabs[1]:  # Document Analysis
+    st.html("<div style='background:#f8fafc; padding:1rem; border-radius:8px; margin-bottom:1rem;'>")
+    if st.session_state.get("retrieved_docs"):
+        docs = st.session_state.retrieved_docs
+        if docs:
+            try:
+                import plotly.graph_objects as go
+                import pandas as pd
+                # Prepare document data
+                doc_data = []
+                for i, doc in enumerate(docs):
+                    if isinstance(doc, dict):
+                        source = doc.get("source", "unknown")
+                        content = doc.get("content", doc.get("page_content", "")) or ""
+                        score = doc.get("score", 0.0) or 0.0
+                    else:
+                        source = "unknown"
+                        content = doc
+                        score = 0.0
+                    doc_data.append({
+                        "Document": f"Doc {i+1}",
+                        "Source": source,
+                        "Score": score,
+                        "Length": len(content),
+                        "Preview": content[:250] + "..." if len(content) > 250 else content
+                    })
+                df = pd.DataFrame(doc_data)
+                # Create scatter plot
+                fig = go.Figure()
+                fig.add_trace(go.Scatter(
+                    x=df["Length"],
+                    y=df["Score"],
+                    mode='markers+text',
+                    marker=dict(
+                        size=12,
+                        color=df["Score"],
+                        colorscale='Viridis',
+                        showscale=True,
+                        colorbar=dict(title="Similarity Score")
+                    ),
+                    text=df["Document"],
+                    textposition="top center",
+                    hovertemplate="<b>%{text}</b><br>Source: %{customdata[0]}<br>Score: %{y:.3f}<br>Length: %{x} chars<extra></extra>",
+                    customdata=df[["Source"]].values
+                ))
+                # Set x-axis range to max document length
+                max_length = df["Length"].max() if not df.empty else 0
+                fig.update_layout(
+                    title="Document Retrieval Analysis",
+                    xaxis_title="Document Length (characters)",
+                    yaxis_title="Similarity Score",
+                    height=400,
+                    margin=dict(l=20, r=20, t=40, b=20),
+                    xaxis=dict(range=[0, max_length * 1.1])
+                )
+                st.plotly_chart(fig, use_container_width=True, key="document_chart")
+                # Show document details
+                st.html("<div style='margin-top:1rem;'>")
+                for i, doc in enumerate(docs):
+                    if isinstance(doc, dict):
+                        source = doc.get("source", "unknown")
+                        content = doc.get("content", doc.get("page_content", "")) or ""
+                        score = doc.get("score", 0.0) or 0.0
+                    else:
+                        source = "unknown"
+                        content = doc
+                        score = 0.0
+                    with st.expander(f"📄 Doc {i+1} | {source} | Score: {float(score) if score is not None else 0:.3f}"):
+                        st.write(content[:500] + ("..." if len(content) > 500 else ""))
+                st.html("</div>")
+            except ImportError:
+                st.warning("Plotly not available")
+        else:
+            st.info("No documents to visualize")
+    else:
+        st.info("No retrieved documents")
+    st.html("</div>")
+
+with viz_tabs[1]:  # Document Analysis
+    st.html("<div style='background:#f8fafc; padding:1rem; border-radius:8px; margin-bottom:1rem;'>")
+    if st.session_state.get("retrieved_docs"):
+        messages = st.session_state.messages
+        user_messages = [m for m in messages if m["role"] == "user"]
+        if user_messages:
+            import re
+            from collections import Counter
+            all_words = []
+            for msg in user_messages:
+                words = re.findall(r'\b[a-záéíóöőúüű]+\b', msg["text"].lower())
+                all_words.extend(words)
+            if all_words:
+                word_counts = Counter(all_words)
+                top_words = word_counts.most_common(10)
+                try:
+                    import plotly.graph_objects as go
+                    words, counts = zip(*top_words) if top_words else ([], [])
+                    fig = go.Figure([go.Bar(x=list(words), y=list(counts))])
+                    fig.update_layout(title="Top 10 Query Words", height=300, margin=dict(l=20, r=20, t=40, b=20))
+                    st.plotly_chart(fig, use_container_width=True, key="query_chart")
+                except ImportError:
+                    for word, count in top_words:
+                        st.write(f"{word}: {count}")
+            col1, col2, col3 = st.columns(3)
+            col1.metric("Total Queries", len(user_messages))
+            col2.metric("Unique Queries", len(set(m["text"] for m in user_messages)))
+            col3.metric("Avg Length", f"{sum(len(m['text']) for m in user_messages)/len(user_messages):.0f} chars")
+    st.html("</div>")
+
+with viz_tabs[2]:  # Performance
+    st.html("<div style='background:#f8fafc; padding:1rem; border-radius:8px; margin-bottom:1rem;'>")
+    if st.session_state.get("node_timings"):
+        timings = [t.get("duration_seconds", 0) for t in st.session_state.node_timings if t.get("duration_seconds") is not None]
+        if timings:
+            try:
+                import plotly.graph_objects as go
+                import pandas as pd
+                timing_data = [{"Node": f"{i+1}. {t.get('node_name', 'Node')}", "Duration": t.get("duration_seconds", 0)} for i, t in enumerate(st.session_state.node_timings)]
+                df = pd.DataFrame(timing_data)
+                total = sum(timings)
+                fig = go.Figure(data=[go.Pie(labels=df["Node"], values=df["Duration"])])
+                fig.update_layout(title="Time Distribution", height=300)
+                st.plotly_chart(fig, use_container_width=True, key="perf_pie")
+                col1, col2, col3, col4 = st.columns(4)
+                col1.metric("Total", f"{total:.2f}s")
+                col2.metric("Avg", f"{sum(timings)/len(timings):.2f}s")
+                col3.metric("Max", f"{max(timings):.2f}s")
+                slow = max(st.session_state.node_timings, key=lambda x: x.get("duration_seconds", 0)) if st.session_state.node_timings else None
+                col4.metric("Slowest", f"{slow.get('node_name', 'N/A')}: {max(timings):.2f}s" if slow else "N/A")
+            except ImportError:
+                st.info("Plotly not available")
+                st.write(f"Total: {sum(timings):.2f}s, Max: {max(timings):.2f}s")
+    st.html("</div>")
+
 if st.session_state.pending_query:
     q = st.session_state.pending_query.strip()
     if q:
@@ -621,27 +815,27 @@ elif st.session_state.test_running:
 
 elif st.session_state.running:
     current = st.session_state.current_node
-    nodes = st.session_state.nodes
-    total = len(nodes)
-
+    session_nodes = st.session_state.nodes
+    total = len(session_nodes)
+    
     if current < total:
         # Update elapsed time for running node
-        if current < len(nodes):
+        if current < len(session_nodes):
             if current not in st.session_state.actual_node_timings:
                 st.session_state.actual_node_timings[current] = time.time()
             else:
                 elapsed = time.time() - st.session_state.actual_node_timings[current]
-                nodes[current]["elapsed"] = max(nodes[current].get("elapsed", 0.0), elapsed)
-
+                session_nodes[current]["elapsed"] = max(session_nodes[current].get("elapsed", 0.0), elapsed)
+        
         # Update node statuses
-        for i, n in enumerate(nodes):
+        for i, n in enumerate(session_nodes):
             if i == current:
                 n["status"] = "running"
             elif i < current:
                 n["status"] = "completed"
             else:
                 n["status"] = "idle"
-
+        
         st.session_state.current_node = current + 1
         st.rerun()
     else:
@@ -684,7 +878,7 @@ elif st.session_state.running:
             st.session_state.bottleneck = bottleneck
 
             # Mark all nodes as completed
-            for n in nodes:
+            for n in st.session_state.nodes:
                 n["status"] = "completed"
 
             st.session_state.running = False
@@ -694,7 +888,7 @@ elif st.session_state.running:
             st.rerun()
         except Exception as e:
             st.session_state.messages.append({"role": "bot", "text": "Hiba: " + str(e)[:100]})
-            for n in nodes:
+            for n in st.session_state.nodes:
                 n["status"] = "completed"
             st.session_state.running = False
             total_time = time.time() - st.session_state.start_time
