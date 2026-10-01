@@ -155,26 +155,70 @@ def rag_node(state: AgentState) -> dict:
         from rag import HybridRAG, HybridConfig
         hybrid_rag = HybridRAG(HybridConfig())
         hybrid_rag.initialize()
-        result = hybrid_rag.retrieve(query)
-        context = result.get("context", "")
-        retrieved = result.get("retrieved_docs", [])
-        # Preserve metadata (source, filename, score) for RAG usage display
-        retrieved_docs_data = []
-        for doc in retrieved:
-            if hasattr(doc, 'page_content'):
+        # Use internal search methods that preserve scores (tfidf_search/dense_search return tuples)
+        # instead of the public search() which loses scores via RRF fusion
+        try:
+            tfidf_results = hybrid_rag.tfidf_search(query, hybrid_rag.config.search_k)
+            dense_results = hybrid_rag.dense_search(query, hybrid_rag.config.search_k)
+            # Apply RRF fusion while preserving scores
+            rrf_k = hybrid_rag.config.rrf_k
+            tfidf_ranks = {idx: rank + 1 for rank, (idx, _, _) in enumerate(tfidf_results)}
+            dense_ranks = {idx: rank + 1 for rank, (idx, _, _) in enumerate(dense_results)}
+            all_indices = set(tfidf_ranks.keys()) | set(dense_ranks.keys())
+            rrf_scores = {}
+            for idx in all_indices:
+                score = 0.0
+                if idx in tfidf_ranks:
+                    score += 1.0 / (rrf_k + tfidf_ranks[idx])
+                if idx in dense_ranks:
+                    score += 1.0 / (rrf_k + dense_ranks[idx])
+                rrf_scores[idx] = score
+            sorted_indices = sorted(rrf_scores.items(), key=lambda x: x[1], reverse=True)
+            top_k = sorted_indices[: hybrid_rag.config.search_k]
+            retrieved_docs = [(hybrid_rag.chunks[idx], score) for idx, score in top_k]
+            # Build context from retrieved docs with scores
+            context_parts = []
+            for i, (doc, score) in enumerate(retrieved_docs[: hybrid_rag.config.search_k]):
+                source = doc.metadata.get("source", "ismeretlen")
+                content = doc.page_content[:800]
+                context_parts.append(f"[{source}]: {content} (Score: {score:.3f})")
+            context = "\n\n---\n\n".join(context_parts)
+            # Prepare retrieved_docs data with scores for UI display
+            retrieved_docs_data = []
+            for doc, score in retrieved_docs[: hybrid_rag.config.search_k]:
                 retrieved_docs_data.append({
                     "source": doc.metadata.get("source", "ismeretlen"),
                     "filename": doc.metadata.get("filename", ""),
                     "content": doc.page_content,
-                    "score": doc.metadata.get("score", None),
+                    "score": score or 0.0,
                 })
-            else:
-                retrieved_docs_data.append({"source": "ismeretlen", "content": str(doc)})
-        return {
-            "context": context,
-            "retrieved_docs": retrieved_docs_data,
-            "error": None
-        }
+            return {
+                "context": context,
+                "retrieved_docs": retrieved_docs_data,
+                "error": None,
+            }
+        except Exception as e:
+            # Fallback: try the public retrieve method
+            result = hybrid_rag.retrieve(query)
+            context = result.get("context", "")
+            retrieved = result.get("retrieved_docs", [])
+            # Try to extract scores from retrieved docs
+            retrieved_docs_data = []
+            for doc in retrieved:
+                if hasattr(doc, "page_content"):
+                    retrieved_docs_data.append({
+                        "source": doc.metadata.get("source", "ismeretlen"),
+                        "filename": doc.metadata.get("filename", ""),
+                        "content": doc.page_content,
+                        "score": doc.metadata.get("score", 0.0) or 0.0,
+                    })
+                else:
+                    retrieved_docs_data.append({"source": "ismeretlen", "content": str(doc)})
+            return {
+                "context": context,
+                "retrieved_docs": retrieved_docs_data,
+                "error": None,
+            }
     except Exception as e:
         return {"context": "", "retrieved_docs": [], "error": str(e)}
 
@@ -455,36 +499,53 @@ def run_agent(query: str, config: Optional[AgentConfig] = None, rag: Optional[An
     if route == "rag":
         t3 = track_time("RAG Keresés", "Hibrid keresés (TF-IDF + Dense + RRF)", ["TF-IDF index", "Dense vektor index", "RRF fusion", "Relevancia kiszámítás", "Dokumentum kiválasztás"])
         try:
-            retrieved = rag.search(query)
-            context = rag.get_context(retrieved)
-            # Get retrieval stats for prompt
-            retrieval_stats = {}
-            for doc in retrieved:
-                source = doc.metadata.get('source', 'ismeretlen')
-                retrieval_stats[source] = retrieval_stats.get(source, 0) + 1
+            # Use internal search methods that preserve scores (tfidf_search/dense_search
+            # return (idx, score, Document) tuples; the public search() drops the scores)
+            tfidf_results = rag.tfidf_search(query, rag.config.search_k)
+            dense_results = rag.dense_search(query, rag.config.search_k)
+            # RRF fusion preserving scores
+            rrf_k = rag.config.rrf_k
+            tfidf_ranks = {idx: rank + 1 for rank, (idx, _, _) in enumerate(tfidf_results)}
+            dense_ranks = {idx: rank + 1 for rank, (idx, _, _) in enumerate(dense_results)}
+            all_indices = set(tfidf_ranks.keys()) | set(dense_ranks.keys())
+            rrf_scores = {}
+            for idx in all_indices:
+                score = 0.0
+                if idx in tfidf_ranks:
+                    score += 1.0 / (rrf_k + tfidf_ranks[idx])
+                if idx in dense_ranks:
+                    score += 1.0 / (rrf_k + dense_ranks[idx])
+                rrf_scores[idx] = score
+            sorted_indices = sorted(rrf_scores.items(), key=lambda x: x[1], reverse=True)
+            top_k = sorted_indices[:rag.config.search_k]
+            retrieved_with_score = [(rag.chunks[idx], score) for idx, score in top_k]
             retrieved_docs_data = []
-            for doc in retrieved:
-                if hasattr(doc, 'page_content'):
-                    retrieved_docs_data.append({
-                        "source": doc.metadata.get("source", "ismeretlen"),
-                        "filename": doc.metadata.get("filename", ""),
-                        "content": doc.page_content[:200],
-                        "score": doc.metadata.get("score", None),
-                    })
-                else:
-                    retrieved_docs_data.append({"source": "ismeretlen", "content": str(doc)[:200]})
+            for doc, score in retrieved_with_score:
+                retrieved_docs_data.append({
+                    "source": doc.metadata.get("source", "ismeretlen"),
+                    "filename": doc.metadata.get("filename", ""),
+                    "content": doc.page_content[:RAG_CHUNK_SIZE],  # Use configurable chunk size
+                    "score": float(score) if score is not None else 0.0,
+                })
             retrieved_docs = retrieved_docs_data
-            # Format retrieval stats for prompt
-            stats_lines = []
-            for src, score in retrieval_stats.items():
-                stats_lines.append(f"- {src}: {score:.3f}")
+            # Context with per-document scores
+            context_parts = []
+            for doc, score in retrieved_with_score:
+                source = doc.metadata.get("source", "ismeretlen")
+                context_parts.append(f"[{source}] (score {score:.3f}): {doc.page_content[:800]}")
+            context = "\n\n---\n\n".join(context_parts)
+            # Retrieval stats for prompt
+            retrieval_stats = {}
+            for doc, _ in retrieved_with_score:
+                source = doc.metadata.get("source", "ismeretlen")
+                retrieval_stats[source] = retrieval_stats.get(source, 0) + 1
+            stats_lines = [f"- {src}: {count} dokumentum" for src, count in retrieval_stats.items()]
             stats_text = "\n".join(stats_lines) if stats_lines else "Nincs elérhető statisztika."
-            # We'll add stats to context or to prompt later
         except Exception as e:
             context = ""
             retrieved_docs = []
             retrieval_stats = {}
-            stats_text = "Hiba a kérés során."
+            stats_text = "Hiba a keresés során: " + str(e)
         t3 = finish_timing(t3, f"{len(retrieved_docs)} dokumentum", ["TF-IDF index", "Dense vektor index", "RRF fusion", "Relevancia kiszámítás", "Dokumentum kiválasztás"])
         node_timings.append(t3)
 

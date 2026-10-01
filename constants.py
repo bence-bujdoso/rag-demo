@@ -7,7 +7,7 @@ Centralizes hardcoded values for easier configuration and maintenance.
 
 # RAG Configuration
 RAG_SEARCH_K = 10
-RAG_CHUNK_SIZE = 800
+RAG_CHUNK_SIZE = 1500  # Increased from 800 to allow fuller document chunks
 RAG_CHUNK_OVERLAP = 100
 
 # Embedding Model
