@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG-Demo Architektúra</title>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#fff3ed', primaryTextColor: '#333', primaryBorderColor: '#d04a02', lineColor: '#d04a02' } });
+    </script>
+    <style>
+        :root {
+            --primary: #d04a02;
+            --bg: #f4f4f6;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --link: #005eb8;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+        }
+        a {
+            color: var(--link);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .diagram-section {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--primary);
+        }
+        .card h2 {
+            margin-top: 0;
+            color: var(--primary);
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .file-link {
+            font-size: 0.8rem;
+            background: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #555;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        .code-snippet {
+            background: #282c34;
+            color: #abb2bf;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+        .keyword { color: #c678dd; }
+        .string { color: #98c379; }
+        .function { color: #61afef; }
+        .comment { color: #5c6370; font-style: italic; }
+        .highlight {
+            background-color: #ffe8cc;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Agentic RAG Architektúra</h1>
+
+    <!-- 1. Vizuális Architektúra Ábra -->
+    <div class="diagram-section">
+        <h2 style="color: #d04a02; margin-top:0;">A Rendszer Teljes Folyamatábrája Fájlhivatkozásokkal</h2>
+        <div class="mermaid">
+            graph TD
+                A([👤 User Input & UI<br/>ui/app.py]) --> B(🧠 1. Intent Classifier<br/>agent/__init__.py)
+                A -.->|run_agent híváskor| S1([🔄 Scraper Check<br/>rag/scraper.py])
+                S1 -->|Seed/Frissítés| S2[(web_results.json<br/>data/)]
+                
+                B --> C{🔀 2. Route Decision<br/>agent/__init__.py}
+                
+                C -->|'munkajog, adózás...'| D[📚 3. RAG Node<br/>agent/__init__.py]
+                C -->|'tool, számolás...'| E[🛠️ 4. Tool Node<br/>agent/__init__.py]
+                C -->|'egyéb'| F[💬 Direct LLM<br/>agent/__init__.py]
+
+                subgraph "Hibrid Kereső (HybridRAG)"
+                    S2 -.-> D1
+                    D1[(TXT Fájlok<br/>data/)] -->|Chunk 800/100| D2[TF-IDF Index<br/>rag/base.py]
+                    D1 -->|MiniLM-hu| D3[(FAISS Vector DB<br/>rag/hybrid.py)]
+                    D2 --> D4[RRF / Alpha Fusion<br/>rag/hybrid.py]
+                    D3 --> D4
+                end
+                
+                D -.-> D4
+                D4 -.-> G
+
+                C --> G
+                E --> G
+                F --> G
+
+                G[📝 5. Answer Generator<br/>glm4:9b LLM] --> H(⚖️ 6. Evaluation Node<br/>agent/__init__.py)
+                H --> I([✅ Végső Válasz UI-on<br/>ui/app.py])
+        </div>
+        
+        <p style="font-size: 0.95rem; color: #444; line-height: 1.8; background: #fff9f5; padding: 15px; border-left: 4px solid var(--primary); border-radius: 8px; text-align: left; margin-top: 20px;">
+            A <b style="color: #6366f1;">LangGraph</b> motor agyként vezérli a teljes folyamatot az <a href="https://github.com/bence-bujdoso/rag-demo/blob/main/agent/__init__.py" target="_blank" class="file-link">agent/__init__.py</a> workflow-ja alapján: 
+            <br><br>
+            <span style="font-size: 1.1em;">1️⃣</span> A kérdés beérkezésekor az <a href="https://github.com/bence-bujdoso/rag-demo/blob/main/ui/app.py" target="_blank" class="file-link">ui/app.py</a> (Streamlit) felületéről, a rendszer a háttérben lefuttatja a <a href="https://github.com/bence-bujdoso/rag-demo/blob/main/rag/scraper.py" target="_blank" class="file-link">rag/scraper.py</a> modult, ellenőrizve és biztosítva a jogi adatok frissességét.<br>
+            
+            <span style="font-size: 1.1em;">2️⃣</span> Az <b style="color: #c678dd;">Intent Classifier</b> csomópont kategorizálja a szándékot, a <b>Route Decision</b> pedig dinamikusan a megfelelő ághoz irányítja a futást.<br>
+            
+            <span style="font-size: 1.1em;">3️⃣</span> Tudástári lekérdezésnél a <b style="color: #10b981;">RAG Node</b> a <a href="https://github.com/bence-bujdoso/rag-demo/blob/main/rag/hybrid.py" target="_blank" class="file-link">rag/hybrid.py</a> és <a href="https://github.com/bence-bujdoso/rag-demo/blob/main/rag/base.py" target="_blank" class="file-link">rag/base.py</a> logikájával hajtja végre a kombinált TF-IDF és Vektoros keresést, míg számításoknál a <b>Tool Node</b> aktiválódik.<br>
+            
+            <span style="font-size: 1.1em;">4️⃣</span> A végső fázisban a <b style="color: #d04a02;">glm4:9b LLM</b> (Answer Generator) a kinyert kontextusból legenerálja a választ, amit az opcionális <b style="color: #f59e0b;">Evaluation Node</b> 1-10 közötti pontszámmal minősít, mielőtt a végeredmény megjelenne az UI-on.
+        </p>
+    </div>
+
+    <div class="grid">
+        <!-- 2. UI és Állapotkezelés -->
+        <div class="card">
+            <h2>1️⃣ Streamlit UI & Inicializálás <a href="https://github.com/bence-bujdoso/rag-demo/blob/main/ui/app.py" class="file-link" target="_blank">ui/app.py</a></h2>
+            <ul>
+                <li>A felület a <b>8501-es porton</b> fut.</li>
+                <li><b>Adatvezérelt újraindexelés:</b> Az alkalmazás SHA-256 hash-t számol a <code>data/</code> mappa <code>.txt</code> fájljaiból (név, méret, módosítási idő). Ha változást észlel, automatikusan újraépíti a RAG indexet.</li>
+                <li>Az <code>app.py</code> vizuálisan követi a LangGraph csomópontok futási idejét (Bottleneck analízis) és a retrievált dokumentumokat.</li>
+            </ul>
+        </div>
+
+        <!-- ÚJ: Scraper Modul -->
+        <div class="card">
+            <h2>🔄 Scraper & Adatfrissítés <a href="https://github.com/bence-bujdoso/rag-demo/blob/main/rag/scraper.py" class="file-link" target="_blank">rag/scraper.py</a></h2>
+            <ul>
+                <li>Helyi dokumentum scraping modul, amely a <code>data/web_results.json</code> fájlt kezeli.</li>
+                <li><b>Seed adatok:</b> Első induláskor (ha nincs meg a fájl), automatikusan feltölti a rendszert 8 alapértelmezett jogi/adózási hivatkozással (pl. Szja-törvény, Lakásügyi törvény).</li>
+                <li><b>Frissítési ciklus:</b> Az <code>agent/__init__.py</code> minden futáskor meghívja a <code>_run_scraper_check()</code> függvényt, de a modul óvja az erőforrásokat: csak maximum 1 óránként (<code>CHECK_INTERVAL_HOURS = 1</code>) futtat érdemi frissítést (a <code>.last_check</code> fájl alapján).</li>
+            </ul>
+        </div>
+
+        <!-- 3. LangGraph Workflow -->
+        <div class="card">
+            <h2>2️⃣ Agentic Routing <a href="https://github.com/bence-bujdoso/rag-demo/blob/main/agent/__init__.py" class="file-link" target="_blank">agent/__init__.py</a></h2>
+            <ul>
+                <li>A folyamat <b>6 csomópontból (node)</b> áll.</li>
+                <li><code>intent_classifier_node</code>: Megvizsgálja a kérdést hardkódolt kulcsszavak alapján.</li>
+                <li><code>route_decision</code>: Eldönti, merre tovább. Ha a kulcsszó pl. <span class="highlight">munkaszerződés</span> vagy <span class="highlight">adó</span>, a RAG felé megy. Ha <span class="highlight">számítás</span>, akkor a Tool felé.</li>
+            </ul>
+        </div>
+
+        <!-- 4. Hibrid RAG -->
+        <div class="card">
+            <h2>3️⃣ Hibrid Kereső <a href="https://github.com/bence-bujdoso/rag-demo/blob/main/rag/hybrid.py" class="file-link" target="_blank">rag/hybrid.py</a> & <a href="https://github.com/bence-bujdoso/rag-demo/blob/main/rag/base.py" class="file-link" target="_blank">base.py</a></h2>
+            <ul>
+                <li><b>Chunking:</b> <code>RecursiveCharacterTextSplitter</code>-rel, <span class="highlight">800 karakteres</span> méret, <span class="highlight">100 karakter</span> átfedéssel.</li>
+                <li><b>Keresés 1:</b> Szemantikai keresés <b>FAISS CPU</b> index-szel, <code>paraphrase-multilingual-MiniLM-L12-hu-v3</code> magyar modellel.</li>
+                <li><b>Keresés 2:</b> Lexikális keresés saját <code>TFIDFVectorizer</code> implementációval (a <code>base.py</code> fájlban).</li>
+                <li><b>Fúzió:</b> A találatokat <b>RRF (Reciprocal Rank Fusion)</b> algoritmus kombinálja (<code>rrf_k=60</code>) vagy egy Alpha paraméteres súlyozás.</li>
+            </ul>
+        </div>
+
+        <!-- 5. LLM és Prompt Generálás -->
+        <div class="card">
+            <h2>4️⃣ LLM Válaszgenerálás <a href="https://github.com/bence-bujdoso/rag-demo/blob/main/agent/__init__.py" class="file-link" target="_blank">agent/__init__.py</a></h2>
+            <ul>
+                <li>A modell: <b>Ollama glm4:9b</b> (Q4_0 kvantálással), 4096 token kontextussal.</li>
+                <li>A RAG által visszaadott dokumentumokból egy string (<code>context</code>) épül, mely tartalmazza a dokumentum metaadatait és a relevanciascore-t.</li>
+                <li>A <code>system_prompt</code> utasítja a modellt, hogy kizárólag a kontextus alapján válaszoljon magyarul.</li>
+                <li><b>Opcionális Értékelés:</b> Az <code>evaluation_node</code> (6. Node) 1-10 közötti pontszámmal értékeli a modell válaszát a pontosság és relevancia alapján.</li>
+            </ul>
+        </div>
+
+        <!-- 6. "Gotchas" -->
+        <div class="card">
+            <h2>⚠️ Tippek: Rendszer Limitációi</h2>
+            <ul>
+                <li><b>Hardkódolt Intentek:</b> A kulcsszavas if-else (<code>agent/__init__.py</code>) sérülékeny. Élesben ezt egy dedikált Classifier LLM vagy Zero-shot modell végezné.</li>
+                <li><b>Szinkron működés:</b> Bár a kódban van <code>asyncio.gather</code> a párhuzamos keresésre a <code>hybrid.py</code>-ban, a fő LangGraph folyamat sok helyen szinkron, ami lassíthat.</li>
+                <li><b>Memória lábnyom:</b> A FAISS index jelenleg memóriában (in-memory) él (körülbelül 15 GiB peak memóriahasználatnál). Vállalati szinten érdemes dedikált Vektor DB szervert használni.</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>
